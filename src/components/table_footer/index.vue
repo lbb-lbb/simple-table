@@ -11,17 +11,14 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { type TableProps, tableProps } from "../types";
+import {tableProps, type TableProps} from "../types";
 
 export default defineComponent({
   name: "TableFooter",
-  props: {
-    pages: Object
-  },
-  setup(props, { attrs, emit, slots }) {
+  props: tableProps,
+  setup(props: TableProps, { attrs, emit, slots }){
 
     const isDisablePlusButton = computed(() => {
-      console.log(props.pages.currentPage * props.pages.size >= props.pages.total)
       return props.pages.currentPage * props.pages.size >= props.pages.total
     })
     const isDisableReduceButton = computed(() => {
@@ -54,5 +51,6 @@ export default defineComponent({
 .page{
   margin-top: 10px;
   display: flex;
+  justify-content: space-between;
 }
 </style>\

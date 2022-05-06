@@ -1,8 +1,8 @@
 <template>
   <tbody>
   <tr v-for="item in sortData" :key="item.id">
-    <td v-for="column in columns" :key="column.accessor">
-      {{item[column.accessor]}}
+    <td v-for="column in columns" :key="column.value">
+      {{item[column.value]}}
     </td>
   </tr>
   </tbody>
@@ -10,18 +10,16 @@
 
 <script lang="ts">
 import {defineComponent, computed} from "vue";
-import { type TableProps, tableProps } from "../types";
+import {tableProps, type TableProps} from "../types";
 
 export default defineComponent({
-  name: "SimpleTable1",
+  name: "TableBody",
   props: {
+    ...tableProps,
     orderBy: String,
-    order: String,
-    columns: Array,
-    data: Array
+    order: String
   },
   setup(props: TableProps, { attrs, emit, slots }) {
-    const originalData = JSON.parse(JSON.stringify(props.data))
 
     const sortData = computed(() => {
       if (props.orderBy) {
@@ -31,7 +29,7 @@ export default defineComponent({
             let aName = a[props.orderBy]
             let bName = b[props.orderBy]
             if (typeof aName === 'string') {
-              aName.localeCompare(bName)
+              return aName.localeCompare(bName)
             } else {
               return aName - bName
             }
@@ -41,7 +39,7 @@ export default defineComponent({
             let aName = a[props.orderBy]
             let bName = b[props.orderBy]
             if (typeof aName === 'string') {
-              bName.localeCompare(aName)
+              return bName.localeCompare(aName)
             } else {
               return bName - aName
             }

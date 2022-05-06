@@ -12,40 +12,38 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { type TableProps, tableProps } from "../types";
+import {tableProps, type TableProps} from "../types";
 
 export default defineComponent({
   name: "TableHeader",
-  props: {
-    columns: Array
-  },
-  setup(props, { attrs, emit, slots }) {
+  props: tableProps,
+  setup(props: TableProps, { attrs, emit, slots }) {
 
-    const Columns = props.columns.slice()
+    const columns = props.columns
 
     const renderColumns = computed(() => {
-      Columns.forEach(v => {
+      columns.forEach(v => {
         if (v.sort) {
           v.sortType = 'sort-normal'
         }
       })
-      return Columns
+      return columns
     })
 
 
     function changeSort(index: number) {
-      switch (props.columns[index].sortType) {
+      switch (columns[index].sortType) {
         case 'sort-normal':
-          props.columns[index].sortType = 'sort-asc'
-          emit('changeSort', props.columns[index])
+          columns[index].sortType = 'sort-asc'
+          emit('changeSort', props.columns[index], 'sort-asc')
           break;
         case 'sort-asc':
-          props.columns[index].sortType = 'sort-desc'
-          emit('changeSort', props.columns[index])
+          columns[index].sortType = 'sort-desc'
+          emit('changeSort', props.columns[index], 'sort-desc')
           break;
         case 'sort-desc':
           props.columns[index].sortType = 'sort-normal'
-          emit('changeSort', props.columns[index])
+          emit('changeSort', props.columns[index], 'sort-normal')
           break;
       }
     }

@@ -1,6 +1,6 @@
 import { shallowMount } from "@vue/test-utils";
 import { expect, test } from "vitest";
-import SimpleTable from "../src/components/SimpleTable";
+import SimpleTable from "../src/components/SimpleTable.vue";
 
 test("mount component", () => {
   const wrapper = shallowMount(SimpleTable, {
