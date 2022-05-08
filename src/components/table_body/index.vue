@@ -2,7 +2,10 @@
   <tbody>
   <tr v-for="item in sortData" :key="item.id">
     <td v-for="column in columns" :key="column.value">
-      {{item[column.value]}}
+      <slot :name="column.value" :item="item">{{item[column.value]}}</slot>
+    </td>
+    <td v-if="openOption">
+      <slot name="options" :item="item"></slot>
     </td>
   </tr>
   </tbody>
@@ -10,21 +13,17 @@
 
 <script lang="ts">
 import {defineComponent, computed} from "vue";
-import {tableProps, type TableProps} from "../types";
+import { tableBodyProps, type TableBodyProps } from "../types";
 
 export default defineComponent({
   name: "TableBody",
-  props: {
-    ...tableProps,
-    orderBy: String,
-    order: String
-  },
-  setup(props: TableProps, { attrs, emit, slots }) {
+  props: tableBodyProps,
+  setup(props: TableBodyProps, { attrs, emit, slots }) {
 
     const sortData = computed(() => {
       if (props.orderBy) {
         let data = props.data.slice()
-        if (props.order === 'sort-asc') {
+        if (props.order === 'sort-asc') { // 正序
           return  data.sort((a, b) => {
             let aName = a[props.orderBy]
             let bName = b[props.orderBy]
@@ -34,7 +33,7 @@ export default defineComponent({
               return aName - bName
             }
           })
-        } else if (props.order === 'sort-desc') {
+        } else if (props.order === 'sort-desc') { // 倒序
           return  data.sort((a, b) => {
             let aName = a[props.orderBy]
             let bName = b[props.orderBy]
@@ -46,6 +45,7 @@ export default defineComponent({
           })
         }
       }
+      // 原本排序
       return props.data
     })
     return { sortData };

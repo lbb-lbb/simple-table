@@ -1,53 +1,52 @@
 <template>
   <thead>
   <tr>
-    <th v-for="(item, index) in renderColumns"
-        :key="item.accessor">
-      {{item.label}}
-      <span :class="[item.sort ? item.sortType : '']" @click="changeSort(index)" />
+    <th v-for="(item, index) in columns"
+        :key="item.value">
+      <slot :name="item.header" :item="item">{{item.label}}</slot>
+      <span :class="[item.sort ? index === sortIndex ? sortType : 'sort-normal' : '']"
+            @click="changeSort(index)" />
+    </th>
+    <th v-if="openOption">
+      <slot name="header-options">操作</slot>
     </th>
   </tr>
   </thead>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
-import {tableProps, type TableProps} from "../types";
+import { defineComponent, ref } from "vue";
+import { tableBodyProps, type TableBodyProps } from "../types";
 
 export default defineComponent({
   name: "TableHeader",
-  props: tableProps,
-  setup(props: TableProps, { attrs, emit, slots }) {
+  props: tableBodyProps,
+  setup(props: TableBodyProps, { attrs, emit, slots }) {
 
-    const columns = props.columns
+    const sortType = ref('sort-normal') //排序方式
 
-    const renderColumns = computed(() => {
-      columns.forEach(v => {
-        if (v.sort) {
-          v.sortType = 'sort-normal'
-        }
-      })
-      return columns
-    })
-
+    const sortIndex = ref(undefined) // 按那一列排序
 
     function changeSort(index: number) {
-      switch (columns[index].sortType) {
+      switch (sortType.value) {
         case 'sort-normal':
-          columns[index].sortType = 'sort-asc'
+          sortIndex.value = index
+          sortType.value = 'sort-asc'
           emit('changeSort', props.columns[index], 'sort-asc')
           break;
         case 'sort-asc':
-          columns[index].sortType = 'sort-desc'
+          sortIndex.value = index
+          sortType.value = 'sort-desc'
           emit('changeSort', props.columns[index], 'sort-desc')
           break;
         case 'sort-desc':
-          props.columns[index].sortType = 'sort-normal'
+          sortIndex.value = index
+          sortType.value = 'sort-normal'
           emit('changeSort', props.columns[index], 'sort-normal')
           break;
       }
     }
-    return {renderColumns, changeSort}
+    return { changeSort, sortIndex, sortType}
   },
 });
 </script>
@@ -65,6 +64,7 @@ export default defineComponent({
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-bottom: 5px solid #333;
+  cursor: pointer;
 }
 .sort-normal:after {
   position: absolute;
@@ -75,6 +75,7 @@ export default defineComponent({
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 5px solid #333;
+  cursor: pointer;
 }
 
 .sort-asc {
@@ -91,6 +92,7 @@ export default defineComponent({
   border-right: 5px solid transparent;
   border-bottom: 5px solid #333;
   border-bottom-color: #1770E6;
+  cursor: pointer;
 }
 .sort-asc:after {
   position: absolute;
@@ -101,6 +103,7 @@ export default defineComponent({
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 5px solid #333;
+  cursor: pointer;
 }
 
 .sort-desc {
@@ -116,6 +119,7 @@ export default defineComponent({
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-bottom: 5px solid #333;
+  cursor: pointer;
 }
 .sort-desc:after {
   position: absolute;
@@ -127,5 +131,6 @@ export default defineComponent({
   border-right: 5px solid transparent;
   border-top: 5px solid #333;
   border-top-color: #1770E6;
+  cursor: pointer;
 }
 </style>
