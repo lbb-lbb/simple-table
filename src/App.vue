@@ -56,7 +56,7 @@ export default defineComponent({
     })
     function loadData() {
       data.data = [
-        { id: 22, name: 'Liz Lemon', age: 36, is_manager: true, start_date: '02-28-1999', date: new Date('1998-05-16') }
+        { id: 22, name: 'Liz Lemon', age: 36, is_manager: true, start_date: '02-28-1999', date: new Date() }
       ]
     }
 

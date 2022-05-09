@@ -35,6 +35,9 @@
 </template>
 
 <script lang="ts">
+/**
+ * @file 表格组件
+ */
 import { defineComponent, ref, computed } from "vue";
 import { type TableProps, tableProps, ColumnsType } from "./types";
 import TableBody from './table_body/index.vue'
@@ -51,7 +54,7 @@ export default defineComponent({
   setup(props: TableProps, { attrs, emit, slots }) {
     const orderBy = ref('')
     const order = ref('sort-normal')
-
+    // 为表头数据增加一个属性作为name插槽标识
     const renderColumns = computed(() => {
       return props.columns.map(v => {
         return {
@@ -61,13 +64,15 @@ export default defineComponent({
       })
     })
 
-    function changeSort(item: ColumnsType, type: string): void {
+    /**
+     * 接收header传递出来的排序字段和方式并改变，触发body里面的排序计算
+     * @param item 排序的表头数据
+     * @param type 排序的方式标识
+     */
+    function changeSort(item: ColumnsType, type: string) {
       orderBy.value = item.value
       order.value = type
     }
-    // function changePage(page: number): void {
-    //   emit('changePage') // 触发翻页事件
-    // }
     return {order, orderBy, changeSort, renderColumns }
   },
 });

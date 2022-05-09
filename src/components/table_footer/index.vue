@@ -10,6 +10,9 @@
 </template>
 
 <script lang="ts">
+/**
+ * @file 表格底部分页组件
+ */
 import { defineComponent, computed } from "vue";
 import { pagesProps, type PagesProps } from "../types";
 
@@ -18,9 +21,11 @@ export default defineComponent({
   props: pagesProps,
   setup(props: PagesProps, { attrs, emit, slots }){
 
+    // 判断下一页是否能点击
     const isDisablePlusButton = computed(() => {
       return props.currentPage * props.pages.size >= props.pages.total
     })
+    // 判断上一页是否能点击
     const isDisableReduceButton = computed(() => {
       return props.currentPage * props.pages.size <= props.pages.size
     })
@@ -34,7 +39,7 @@ export default defineComponent({
       changePage(unit)
     }
 
-    function jumpPage(page: number): void {
+    function jumpPage(page: number) {
       changePage(page)
     }
 
@@ -54,4 +59,4 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
 }
-</style>\
+</style>

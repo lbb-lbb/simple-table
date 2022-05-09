@@ -12,6 +12,9 @@
 </template>
 
 <script lang="ts">
+/**
+ * @file 渲染表格body组件
+ */
 import {defineComponent, computed} from "vue";
 import { tableBodyProps, type TableBodyProps } from "../types";
 
@@ -27,7 +30,7 @@ export default defineComponent({
           return  data.sort((a, b) => {
             let aName = a[props.orderBy]
             let bName = b[props.orderBy]
-            if (typeof aName === 'string') {
+            if (typeof aName === 'string') {  // 字符串排序用localeCompare判断
               return aName.localeCompare(bName)
             } else {
               return aName - bName

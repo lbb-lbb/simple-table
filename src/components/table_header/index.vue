@@ -15,6 +15,9 @@
 </template>
 
 <script lang="ts">
+/**
+ * @file 渲染表格header组件
+ */
 import { defineComponent, ref } from "vue";
 import { tableBodyProps, type TableBodyProps } from "../types";
 
