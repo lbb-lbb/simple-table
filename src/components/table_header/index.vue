@@ -3,9 +3,11 @@
   <tr>
     <th v-for="(item, index) in columns"
         :key="item.value">
-      <slot :name="item.header" :item="item">{{item.label}}</slot>
-      <span :class="[item.sort ? index === sortIndex ? sortType : 'sort-normal' : '']"
-            @click="changeSort(index)" />
+      <div style="display: flex">
+        <slot :name="item.header" :item="item">{{item.label}}</slot>
+        <span :class="[item.sort ? index === sortIndex ? sortType : 'sort-normal' : '']"
+              @click="changeSort(index)" />
+      </div>
     </th>
     <th v-if="openOption">
       <slot name="header-options">操作</slot>

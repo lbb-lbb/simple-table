@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table :border=1>
+    <table class="table">
       <table-header v-bind="$attrs"
                     :columns="renderColumns"
                     @changeSort="changeSort">
@@ -82,11 +82,5 @@ export default defineComponent({
 table,table tr th, table tr td {
   border:1px solid #ccc;
 }
-th, td {
-  min-width: 150px;
-}
 
-table{
-  border-collapse: collapse;
-}
 </style>
