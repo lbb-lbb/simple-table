@@ -16,18 +16,17 @@
  * @file 渲染表格body组件
  */
 import {defineComponent, computed} from "vue";
-import { tableBodyProps, type TableBodyProps } from "../types";
+import { DataType, tableBodyProps, type TableBodyProps} from "../types";
 
 export default defineComponent({
   name: "TableBody",
   props: tableBodyProps,
   setup(props: TableBodyProps, { attrs, emit, slots }) {
-
-    const sortData = computed(() => {
+    const sortData:Partial<DataType> = computed(() => {
       if (props.orderBy) {
         let data = props.data.slice()
         if (props.order === 'sort-asc') { // 正序
-          return  data.sort((a, b) => {
+          return  data.sort((a: any, b: any) => {
             let aName = a[props.orderBy]
             let bName = b[props.orderBy]
             if (typeof aName === 'string') {  // 字符串排序用localeCompare判断
@@ -37,7 +36,7 @@ export default defineComponent({
             }
           })
         } else if (props.order === 'sort-desc') { // 倒序
-          return  data.sort((a, b) => {
+          return  data.sort((a: any, b: any) => {
             let aName = a[props.orderBy]
             let bName = b[props.orderBy]
             if (typeof aName === 'string') {

@@ -56,7 +56,7 @@ export default defineComponent({
     const order = ref('sort-normal')
     // 为表头数据增加一个属性作为name插槽标识
     const renderColumns = computed(() => {
-      return props.columns.map(v => {
+      return (props.columns as ColumnsType[]).map((v) => {
         return {
           ...v,
           header: 'header-' + v.value

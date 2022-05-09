@@ -12,6 +12,13 @@ export interface PagesType {
   total: number;
   size: number
 }
+export interface DataType {
+  id: number | string,
+  name: string, age: number,
+  is_manager: boolean,
+  start_date: string,
+  date: Date, [key:string]:any
+}
 
 
 //  定义表格Props

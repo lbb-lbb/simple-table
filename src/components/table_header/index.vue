@@ -30,7 +30,7 @@ export default defineComponent({
 
     const sortType = ref('sort-normal') //排序方式
 
-    const sortIndex = ref(undefined) // 按那一列排序
+    const sortIndex = ref<number>() // 按那一列排序
 
     function changeSort(index: number) {
       switch (sortType.value) {
@@ -51,7 +51,7 @@ export default defineComponent({
           break;
       }
     }
-    return { changeSort, sortIndex, sortType}
+    return { changeSort, sortIndex, sortType, columns: props.columns}
   },
 });
 </script>
