@@ -9,17 +9,17 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 /**
  * @file 表格底部分页组件
  */
-import { defineComponent, computed } from "vue";
-import { pagesProps, type PagesProps } from "../types";
+import { computed } from "vue";
+import { pagesProps } from "../types";
 
-export default defineComponent({
-  name: "TableFooter",
-  props: pagesProps,
-  setup(props: PagesProps, { attrs, emit, slots }){
+    const props = defineProps({
+      ...pagesProps
+    })
+    const emit = defineEmits(['update:currentPage', 'changePage'])
 
     // 判断下一页是否能点击
     const isDisablePlusButton = computed(() => {
@@ -47,10 +47,6 @@ export default defineComponent({
       emit('update:currentPage', currentPage) // 改变当前页
       emit('changePage', Number(currentPage))
     }
-    return { isDisablePlusButton, isDisableReduceButton, plusPage, reducePage, jumpPage }
-
-  },
-});
 
 </script>
 <style scoped>

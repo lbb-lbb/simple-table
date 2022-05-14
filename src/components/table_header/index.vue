@@ -4,7 +4,7 @@
     <th v-for="(item, index) in columns"
         :key="item.value">
       <div style="display: flex">
-        <slot :name="item.header" :item="item">{{item.label}}</slot>
+        <slot :name="addHeaderSlotName(item.value)" :item="item">{{item.label}}</slot>
         <span :class="[item.sort ? index === sortIndex ? sortType : 'sort-normal' : '']"
               @click="changeSort(index)" />
       </div>
@@ -16,21 +16,27 @@
   </thead>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 /**
  * @file 渲染表格header组件
  */
-import { defineComponent, ref } from "vue";
-import { tableBodyProps, type TableBodyProps } from "../types";
+import { ref } from "vue";
+import { tableBodyProps } from "../types";
 
-export default defineComponent({
-  name: "TableHeader",
-  props: tableBodyProps,
-  setup(props: TableBodyProps, { attrs, emit, slots }) {
+
+
+
+    const props = defineProps({
+      ...tableBodyProps
+    })
+    const emit = defineEmits(['changeSort'])
 
     const sortType = ref('sort-normal') //排序方式
 
     const sortIndex = ref<number>() // 按那一列排序
+function addHeaderSlotName(value: string) {
+  return `header-${value}`
+}
 
     function changeSort(index: number) {
       switch (sortType.value) {
@@ -51,9 +57,6 @@ export default defineComponent({
           break;
       }
     }
-    return { changeSort, sortIndex, sortType, columns: props.columns}
-  },
-});
 </script>
 <style scoped>
 .sort-normal {

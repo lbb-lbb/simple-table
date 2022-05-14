@@ -11,17 +11,16 @@
   </tbody>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 /**
  * @file 渲染表格body组件
  */
-import {defineComponent, computed} from "vue";
-import { DataType, tableBodyProps, type TableBodyProps} from "../types";
+import {computed} from "vue";
+import { DataType, tableBodyProps} from "../types";
 
-export default defineComponent({
-  name: "TableBody",
-  props: tableBodyProps,
-  setup(props: TableBodyProps, { attrs, emit, slots }) {
+  const props = defineProps({
+    ...tableBodyProps
+  })
     const sortData:Partial<DataType> = computed(() => {
       if (props.orderBy) {
         let data = props.data.slice()
@@ -50,8 +49,5 @@ export default defineComponent({
       // 原本排序
       return props.data
     })
-    return { sortData };
-  }
-});
 
 </script>

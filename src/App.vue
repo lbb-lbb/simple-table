@@ -20,16 +20,11 @@
     </simple-table>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
+<script lang="ts" setup>
+import {  reactive, ref } from "vue";
 import SimpleTable from "./components/SimpleTable.vue";
 import { PagesType, ColumnsType } from './components/types'
-export default defineComponent({
-  name: "App",
-  components: {
-    SimpleTable
-  },
-  setup() {
+
     const pages: PagesType = reactive({
       total: 99,
       size: 20
@@ -59,10 +54,6 @@ export default defineComponent({
         { id: 22, name: 'Liz Lemon', age: 36, is_manager: true, start_date: '02-28-1999', date: new Date() }
       ]
     }
-
-    return { pages, data, columns, loadData, currentPage }
-  }
-})
 
 </script>
 
