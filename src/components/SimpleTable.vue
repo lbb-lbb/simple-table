@@ -11,6 +11,11 @@
                 :item="scope.item">
           </slot>
         </template>
+        <template v-slot:header-options="scope">
+          <slot name="header-options"
+                :item="scope.item">
+          </slot>
+        </template>
       </table-header>
       <table-body v-bind="$attrs"
                   :order-by="orderBy"

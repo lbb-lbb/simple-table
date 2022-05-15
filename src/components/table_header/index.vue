@@ -10,7 +10,7 @@
       </div>
     </th>
     <th v-if="openOption">
-      <slot name="header-options">操作</slot>
+      <slot name="header-options" :item="columns">操作</slot>
     </th>
   </tr>
   </thead>
