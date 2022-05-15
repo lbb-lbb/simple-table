@@ -1,5 +1,6 @@
 <template>
-  <div class="page">
+  <div v-if="openPage"
+       class="page">
     <div>共{{pages.total}}条</div>
     <div @click="reducePage">当前显示条目{{pages.size}}</div>
     <button :disabled="isDisableReduceButton" @click="reducePage">上一页</button>

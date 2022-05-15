@@ -23,27 +23,31 @@ import { DataType, tableBodyProps} from "../types";
   })
     const sortData:Partial<DataType> = computed(() => {
       if (props.orderBy) {
-        let data = props.data.slice()
-        if (props.order === 'sort-asc') { // 正序
-          return  data.sort((a: any, b: any) => {
-            let aName = a[props.orderBy]
-            let bName = b[props.orderBy]
-            if (typeof aName === 'string') {  // 字符串排序用localeCompare判断
-              return aName.localeCompare(bName)
-            } else {
-              return aName - bName
-            }
-          })
-        } else if (props.order === 'sort-desc') { // 倒序
-          return  data.sort((a: any, b: any) => {
-            let aName = a[props.orderBy]
-            let bName = b[props.orderBy]
-            if (typeof aName === 'string') {
-              return bName.localeCompare(aName)
-            } else {
-              return bName - aName
-            }
-          })
+        if(props.onSort) {  // 存在自定义回调函数，则调用返回
+          return props.onSort(props.data, { orderBy:props.orderBy, order:props.order })
+        } else {
+          let data = props.data.slice()
+          if (props.order === 'sort-asc') { // 正序
+            return  data.sort((a: any, b: any) => {
+              let aName = a[props.orderBy]
+              let bName = b[props.orderBy]
+              if (typeof aName === 'string') {  // 字符串排序用localeCompare判断
+                return aName.localeCompare(bName)
+              } else {
+                return aName - bName
+              }
+            })
+          } else if (props.order === 'sort-desc') { // 倒序
+            return  data.sort((a: any, b: any) => {
+              let aName = a[props.orderBy]
+              let bName = b[props.orderBy]
+              if (typeof aName === 'string') {
+                return bName.localeCompare(aName)
+              } else {
+                return bName - aName
+              }
+            })
+          }
         }
       }
       // 原本排序

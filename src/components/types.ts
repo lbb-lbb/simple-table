@@ -54,6 +54,10 @@ export const tableBodyProps = {
     type: Boolean,
     default: false,
   },
+  onSort: {
+    type: Function,
+    default: null
+  }
 } as const;
 
 //  定义表格body的Props
@@ -70,6 +74,10 @@ export const pagesProps = {
     type: Number,
     default: 1
   },
+  openPage: {
+    type: Boolean,
+    default: false
+  }
 } as const;
 
 export type TableProps = ExtractPropTypes<typeof tableProps>;
