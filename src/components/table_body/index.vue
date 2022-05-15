@@ -18,13 +18,13 @@
 import {computed} from "vue";
 import { DataType, tableBodyProps} from "../types";
 
-  const props = defineProps({
-    ...tableBodyProps
-  })
+    const props = defineProps({
+      ...tableBodyProps
+    })
     const sortData:Partial<DataType> = computed(() => {
       if (props.orderBy) {
         if(props.onSort) {  // 存在自定义回调函数，则调用返回
-          return props.onSort(props.data, { orderBy:props.orderBy, order:props.order })
+          return props.onSort(props.data, { orderBy: props.orderBy, order: props.order })
         } else {
           let data = props.data.slice()
           if (props.order === 'sort-asc') { // 正序

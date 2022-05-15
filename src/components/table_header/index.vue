@@ -22,10 +22,6 @@
  */
 import { ref } from "vue";
 import { tableBodyProps } from "../types";
-
-
-
-
     const props = defineProps({
       ...tableBodyProps
     })
@@ -34,9 +30,10 @@ import { tableBodyProps } from "../types";
     const sortType = ref('sort-normal') //排序方式
 
     const sortIndex = ref<number>() // 按那一列排序
-function addHeaderSlotName(value: string) {
-  return `header-${value}`
-}
+
+    function addHeaderSlotName(value: string) {
+      return `header-${value}`
+    }
 
     function changeSort(index: number) {
       switch (sortType.value) {
