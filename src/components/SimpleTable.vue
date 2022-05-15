@@ -44,7 +44,7 @@ import TableBody from './table_body/index.vue'
 import TableHeader from './table_header/index.vue'
 import TableFooter from './table_footer/index.vue'
 
-   const props = defineProps({
+  const props = defineProps({
     ...tableProps
   })
   const orderBy = ref('')
