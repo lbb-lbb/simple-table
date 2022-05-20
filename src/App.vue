@@ -11,7 +11,6 @@
             v-model:currentPage="demo2.currentPage"
             :data="demo2.data"
             :columns="demo2.columns"
-            :open-page="demo2.openPage"
             :pages="demo2.pages"
             @change-page="loadData"
         >
@@ -47,6 +46,10 @@
         <h2>按需开启表格列排序，使用用户自定义排序(调用app.vue中的onSort自定义排序函数)</h2>
         <simple-table :data="demo4.data" :on-sort="onSort" :columns="demo4.columns"> </simple-table>
     </div>
+  <div class="demo">
+    <h2>data为空时候</h2>
+    <simple-table  :on-sort="onSort" :columns="demo4.columns"> </simple-table>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -86,7 +89,6 @@ const demo1 = reactive({
 const demo2 = reactive({
     columns: noSortColumns,
     data,
-    openPage: true,
     pages: {
         total: 99,
         size: 10,

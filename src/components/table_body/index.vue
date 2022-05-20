@@ -10,6 +10,9 @@
                 <slot name="options" :item="item"></slot>
             </td>
         </tr>
+        <tr v-if="!data.length">
+          <slot name="empty">数据为空</slot>
+        </tr>
     </tbody>
 </template>
 
@@ -17,11 +20,24 @@
 /**
  * @file 渲染表格body组件
  */
-import {computed} from 'vue'
-import {DataType, tableBodyProps} from '../types'
+import {computed, defineProps, withDefaults} from 'vue'
+import {ColumnsType, DataType} from '../types'
 
-const props = defineProps({
-    ...tableBodyProps,
+interface TableBodyType<T extends {} = Record<string, unknown>> {
+  data: T[],
+  columns: ColumnsType[],
+  orderBy: string,
+  order: string,
+  openOption?: boolean,
+  onSort?: (data: T[], option: { orderBy: string, order: string }) => T[]
+}
+
+const props = withDefaults(defineProps<TableBodyType>(), {
+  orderBy: '',
+  order: 'sort-normal',
+  openOption: false,
+  data: () => [],
+  columns: () => [],
 })
 const sortData: Partial<DataType> = computed(() => {
     if (props.orderBy) {

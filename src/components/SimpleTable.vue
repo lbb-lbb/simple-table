@@ -28,14 +28,22 @@
 /**
  * @file 表格组件
  */
-import {ref} from 'vue'
-import {tableProps, ColumnsType} from './types'
+import {ref, defineProps, withDefaults, onBeforeMount} from 'vue'
+import {ColumnsType} from './types'
 import TableBody from './table_body/index.vue'
 import TableHeader from './table_header/index.vue'
 import TableFooter from './table_footer/index.vue'
 
-const props = defineProps({
-    ...tableProps,
+
+onBeforeMount(() => {
+  if (!props.columns.length) {
+    console.error('传入的表头数据columns不能为空')
+  }
+})
+
+
+const props = withDefaults(defineProps<{ columns: ColumnsType[] }>(), {
+  columns: () => []
 })
 const orderBy = ref('')
 const order = ref('sort-normal')

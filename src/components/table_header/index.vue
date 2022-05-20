@@ -8,7 +8,7 @@
                     <slot :name="addHeaderSlotName(item.value)" :item="item">{{ item.label }}</slot>
                     <span
                         :class="[item.sort ? (index === sortIndex ? sortType : 'sort-normal') : '']"
-                        @click="changeSort(index)"
+                        @click="changeSort(index, item)"
                     />
                 </div>
             </th>
@@ -23,38 +23,45 @@
 /**
  * @file 渲染表格header组件
  */
-import {ref} from 'vue'
-import {tableBodyProps} from '../types'
+import {defineProps, ref, withDefaults} from 'vue'
+import {ColumnsType} from '../types'
 
-const props = defineProps({
-    ...tableBodyProps,
+interface TableHeader {
+  columns?: ColumnsType[],
+  openOption?: boolean
+}
+
+const props = withDefaults(defineProps<TableHeader>(), {
+  columns: () => [],
+  openOption: false
 })
-const emit = defineEmits(['changeSort'])
+const emit = defineEmits<{ (e: 'changeSort', columns: ColumnsType[], orderBy: string): void }>()
 
 const sortType = ref('sort-normal') // 排序方式
 
 const sortIndex = ref<number>() // 按那一列排序
 
+
 function addHeaderSlotName(value: string) {
     return `header-${value}`
 }
 
-function changeSort(index: number) {
+function changeSort(index: number, item: ColumnsType[]) {
     switch (sortType.value) {
         case 'sort-normal':
             sortIndex.value = index
             sortType.value = 'sort-asc'
-            emit('changeSort', props.columns[index], 'sort-asc')
+            emit('changeSort', item, 'sort-asc')
             break
         case 'sort-asc':
             sortIndex.value = index
             sortType.value = 'sort-desc'
-            emit('changeSort', props.columns[index], 'sort-desc')
+            emit('changeSort', item, 'sort-desc')
             break
         case 'sort-desc':
             sortIndex.value = index
             sortType.value = 'sort-normal'
-            emit('changeSort', props.columns[index], 'sort-normal')
+            emit('changeSort', item, 'sort-normal')
             break
     }
 }
