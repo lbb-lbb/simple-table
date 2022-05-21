@@ -1,29 +1,29 @@
 <!-- @format -->
 
 <template>
-    <thead>
-        <tr>
-            <th v-for="(item, index) in columns" :key="item.value">
-                <div style="display: flex">
-                    <slot :name="addHeaderSlotName(item.value)" :item="item">{{ item.label }}</slot>
-                    <span
-                        :class="[item.sort ? (index === sortIndex ? sortType : 'sort-normal') : '']"
-                        @click="changeSort(index, item)"
-                    />
-                </div>
-            </th>
-            <th v-if="openOption">
-                <slot name="header-options" :item="columns">操作</slot>
-            </th>
-        </tr>
-    </thead>
+  <thead>
+  <tr>
+    <th v-for="(item, index) in columns" :key="item.value">
+      <div style="display: flex">
+        <slot :name="addHeaderSlotName(item.value)" :item="item">{{ item.label }}</slot>
+        <span
+            :class="[item.sort ? (index === sortIndex ? sortType : 'sort-normal') : '']"
+            @click="changeSort(index, item)"
+        />
+      </div>
+    </th>
+    <th v-if="openOption">
+      <slot name="header-options" :item="columns">操作</slot>
+    </th>
+  </tr>
+  </thead>
 </template>
 
 <script lang="ts" setup>
 /**
  * @file 渲染表格header组件
  */
-import {defineProps, ref, withDefaults} from 'vue'
+import {defineProps, ref, withDefaults, defineEmits} from 'vue'
 import {ColumnsType} from '../types'
 
 interface TableHeader {
@@ -43,116 +43,116 @@ const sortIndex = ref<number>() // 按那一列排序
 
 
 function addHeaderSlotName(value: string) {
-    return `header-${value}`
+  return `header-${value}`
 }
 
 function changeSort(index: number, item: ColumnsType[]) {
-    switch (sortType.value) {
-        case 'sort-normal':
-            sortIndex.value = index
-            sortType.value = 'sort-asc'
-            emit('changeSort', item, 'sort-asc')
-            break
-        case 'sort-asc':
-            sortIndex.value = index
-            sortType.value = 'sort-desc'
-            emit('changeSort', item, 'sort-desc')
-            break
-        case 'sort-desc':
-            sortIndex.value = index
-            sortType.value = 'sort-normal'
-            emit('changeSort', item, 'sort-normal')
-            break
-    }
+  switch (sortType.value) {
+    case 'sort-normal':
+      sortIndex.value = index
+      sortType.value = 'sort-asc'
+      emit('changeSort', item, 'sort-asc')
+      break
+    case 'sort-asc':
+      sortIndex.value = index
+      sortType.value = 'sort-desc'
+      emit('changeSort', item, 'sort-desc')
+      break
+    case 'sort-desc':
+      sortIndex.value = index
+      sortType.value = 'sort-normal'
+      emit('changeSort', item, 'sort-normal')
+      break
+  }
 }
 </script>
 <style scoped>
 .sort-normal {
-    position: relative;
-    margin-left: 2px;
+  position: relative;
+  margin-left: 2px;
 }
 
 .sort-normal:before {
-    position: absolute;
-    top: 2px;
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 5px solid #333;
-    cursor: pointer;
+  position: absolute;
+  top: 2px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #333;
+  cursor: pointer;
 }
 
 .sort-normal:after {
-    position: absolute;
-    bottom: 2px;
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #333;
-    cursor: pointer;
+  position: absolute;
+  bottom: 2px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #333;
+  cursor: pointer;
 }
 
 .sort-asc {
-    position: relative;
-    margin-left: 2px;
+  position: relative;
+  margin-left: 2px;
 }
 
 .sort-asc:before {
-    position: absolute;
-    top: 2px;
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 5px solid #333;
-    border-bottom-color: #1770e6;
-    cursor: pointer;
+  position: absolute;
+  top: 2px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #333;
+  border-bottom-color: #1770e6;
+  cursor: pointer;
 }
 
 .sort-asc:after {
-    position: absolute;
-    bottom: 2px;
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #333;
-    cursor: pointer;
+  position: absolute;
+  bottom: 2px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #333;
+  cursor: pointer;
 }
 
 .sort-desc {
-    position: relative;
-    margin-left: 2px;
+  position: relative;
+  margin-left: 2px;
 }
 
 .sort-desc:before {
-    position: absolute;
-    top: 2px;
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 5px solid #333;
-    cursor: pointer;
+  position: absolute;
+  top: 2px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #333;
+  cursor: pointer;
 }
 
 .sort-desc:after {
-    position: absolute;
-    bottom: 2px;
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #333;
-    border-top-color: #1770e6;
-    cursor: pointer;
+  position: absolute;
+  bottom: 2px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #333;
+  border-top-color: #1770e6;
+  cursor: pointer;
 }
 </style>
