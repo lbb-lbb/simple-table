@@ -15,7 +15,9 @@
 /**
  * @file 表格底部分页组件
  */
-import {computed, defineProps, withDefaults} from 'vue'
+import {computed, defineProps, toRefs, withDefaults} from 'vue'
+import { usePageation } from '../hooks/usePageation'
+
 interface TableFooterType {
   currentPage?: number,
   pages?: PagesType
@@ -37,14 +39,13 @@ const emit = defineEmits<{
   (e: 'changePage', changePage: number): void
 }>()
 
-// 判断下一页是否能点击
-const isDisablePlusButton: boolean = computed(() => {
-  return props.currentPage * props.pages.size >= props.pages.total
-})
-// 判断上一页是否能点击
-const isDisableReduceButton: boolean = computed(() => {
-  return props.currentPage * props.pages.size <= props.pages.size
-})
+const { pages, currentPage } = toRefs(props)
+
+const {
+  isDisablePlusButton,
+  isDisableReduceButton,
+} = usePageation(currentPage, pages)
+
 // 下一页
 function plusPage() {
   const unit = props.currentPage + 1
