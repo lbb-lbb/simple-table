@@ -6,9 +6,8 @@
     <th v-for="(item, index) in columns" :key="item.value">
       <div style="display: flex">
         <slot :name="addHeaderSlotName(item.value)" :item="item">{{ item.label }}</slot>
-        <span
-            :class="[item.sort ? (index === sortIndex ? sortType : 'sort-normal') : '']"
-            @click="changeSort(index, item)"
+        <span :class="[item.sort ? (index === sortIndex ? sortType : 'sort-normal') : '']"
+              @click="changeSort(index, item)"
         />
       </div>
     </th>
@@ -25,6 +24,8 @@
  */
 import {defineProps, ref, withDefaults, defineEmits} from 'vue'
 import {ColumnsType} from '../types'
+import { SORT_ITEM } from '../const'
+import {addHeaderSlotName} from '../util'
 
 interface TableHeader {
   columns?: ColumnsType[],
@@ -37,31 +38,27 @@ const props = withDefaults(defineProps<TableHeader>(), {
 })
 const emit = defineEmits<{ (e: 'changeSort', columns: ColumnsType[], orderBy: string): void }>()
 
-const sortType = ref('sort-normal') // 排序方式
+const sortType = ref(SORT_ITEM.normal) // 排序方式
 
 const sortIndex = ref<number>() // 按那一列排序
 
 
-function addHeaderSlotName(value: string) {
-  return `header-${value}`
-}
-
 function changeSort(index: number, item: ColumnsType[]) {
   switch (sortType.value) {
-    case 'sort-normal':
+    case SORT_ITEM.normal:
       sortIndex.value = index
-      sortType.value = 'sort-asc'
-      emit('changeSort', item, 'sort-asc')
+      sortType.value = SORT_ITEM.asc
+      emit('changeSort', item, SORT_ITEM.asc)
       break
-    case 'sort-asc':
+    case SORT_ITEM.asc:
       sortIndex.value = index
-      sortType.value = 'sort-desc'
-      emit('changeSort', item, 'sort-desc')
+      sortType.value = SORT_ITEM.desc
+      emit('changeSort', item, SORT_ITEM.desc)
       break
-    case 'sort-desc':
+    case SORT_ITEM.desc:
       sortIndex.value = index
-      sortType.value = 'sort-normal'
-      emit('changeSort', item, 'sort-normal')
+      sortType.value = SORT_ITEM.normal
+      emit('changeSort', item, SORT_ITEM.normal)
       break
   }
 }

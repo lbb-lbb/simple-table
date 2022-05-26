@@ -1,5 +1,3 @@
-import {InjectionKey} from "vue";
-
 /** @format */
 
 // 表头接口类型
@@ -15,6 +13,7 @@ export interface PagesType {
     total: number
     size: number
 }
+
 export interface DataType {
     id: number | string
     name: string
@@ -22,5 +21,20 @@ export interface DataType {
     is_manager: boolean
     start_date: string
     date: Date
+
     [key: string]: any
+}
+
+export interface TableFooterType {
+    currentPage?: number
+    pages?: PagesType
+}
+
+export interface TableBodyType<T extends {} = Record<string, unknown>> {
+    data: T[]
+    columns: ColumnsType[]
+    orderBy: string
+    order: string
+    openOption?: boolean
+    onSort?: (data: T[], option: {orderBy: string; order: string}) => T[]
 }

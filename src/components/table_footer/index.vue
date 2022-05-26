@@ -1,28 +1,29 @@
 <!-- @format -->
 
 <template>
-  <div v-if="pages.total" class="page">
+  <div v-if='pages.total' class='page'>
     <div>共{{ pages.total }}条</div>
-    <div @click="reducePage">当前显示条目{{ pages.size }}</div>
-    <button :disabled="isDisableReduceButton" @click="reducePage">上一页</button>
+    <div @click='reducePage'>当前显示条目{{ pages.size }}</div>
+    <button :disabled='isDisableReduceButton' @click='reducePage'>上一页</button>
     <div>当前在第{{ currentPage }}页</div>
-    <button :disabled="isDisablePlusButton" @click="plusPage">下一页</button>
-    <input placeholder="跳转至" type="number" @change="jumpPage($event.target.value)" />
+    <button :disabled='isDisablePlusButton' @click='plusPage'>下一页</button>
+    <input placeholder='跳转至' type='number' @change='jumpPage($event.target.value)' />
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang='ts' setup>
 /**
  * @file 表格底部分页组件
  */
-import {computed, defineProps, toRefs, withDefaults} from 'vue'
-import { usePageation } from '../hooks/usePageation'
+import {defineProps, withDefaults} from 'vue'
+import {usePageation} from '../hooks/usePageation'
 
 interface TableFooterType {
   currentPage?: number,
   pages?: PagesType
 }
-export interface PagesType {
+
+interface PagesType {
   total: number
   size: number
 }
@@ -31,26 +32,25 @@ const props = withDefaults(defineProps<TableFooterType>(), {
   currentPage: 1,
   pages: () => ({
     size: 10,
-    total: 0
-  })
+    total: 0,
+  }),
 })
 const emit = defineEmits<{
   (e: 'update:currentPage', changePage: number): void,
   (e: 'changePage', changePage: number): void
 }>()
 
-const { pages, currentPage } = toRefs(props)
-
 const {
   isDisablePlusButton,
   isDisableReduceButton,
-} = usePageation(currentPage, pages)
+} = usePageation(props)
 
 // 下一页
 function plusPage() {
   const unit = props.currentPage + 1
   changePage(unit)
 }
+
 // 上一页
 function reducePage() {
   const unit = props.currentPage - 1
@@ -58,7 +58,7 @@ function reducePage() {
 }
 
 function jumpPage(page: number) {
-  if(page < 0) {
+  if (page < 0) {
     console.trace('输入的页数必须大于0')
     return
   }

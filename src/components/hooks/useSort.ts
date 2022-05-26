@@ -1,25 +1,32 @@
 /** @format */
 
-import {computed} from 'vue'
-import {DataType} from '../types'
+import {computed, toRefs, unref} from 'vue'
+import {TableBodyType, DataType} from '../types'
+import {SORT_ITEM} from '../const'
 
-export function useSort(originalData: Partial<DataType>, orderBy: string, order: string, onSort: any) {
+export function useSort(object: TableBodyType) {
+    const props = toRefs(object)
+
     const sortData: Partial<DataType> = computed(() => {
-        if (orderBy.value) {
-            if (onSort.value) {
+        const originalData = unref(props.data)
+        const orderBy = unref(props.orderBy)
+        const order = unref(props.order)
+        const onSort = unref(props.onSort)
+        if (orderBy) {
+            if (onSort) {
                 try {
                     // 存在自定义回调函数，则调用返回
-                    return onSort.value(originalData.value, {orderBy: orderBy.value, order: order.value})
+                    return onSort(originalData, {orderBy: orderBy, order: order})
                 } catch (e) {
                     console.error(e)
                 }
             }
-            const data: Partial<DataType> = originalData.value.slice()
-            if (order.value === 'sort-asc') {
+            const data: Partial<DataType> = originalData.slice()
+            if (order === SORT_ITEM.asc) {
                 // 正序
                 return data.sort((a: any, b: any) => {
-                    const aName = a[orderBy.value]
-                    const bName = b[orderBy.value]
+                    const aName = a[orderBy]
+                    const bName = b[orderBy]
                     if (typeof aName === 'string') {
                         // 字符串排序用localeCompare判断
                         return aName.localeCompare(bName)
@@ -27,11 +34,11 @@ export function useSort(originalData: Partial<DataType>, orderBy: string, order:
                     return aName - bName
                 })
             }
-            if (order.value === 'sort-desc') {
+            if (order === SORT_ITEM.desc) {
                 // 倒序
                 return data.sort((a: any, b: any) => {
-                    const aName = a[orderBy.value]
-                    const bName = b[orderBy.value]
+                    const aName = a[orderBy]
+                    const bName = b[orderBy]
                     if (typeof aName === 'string') {
                         return bName.localeCompare(aName)
                     }
@@ -40,7 +47,7 @@ export function useSort(originalData: Partial<DataType>, orderBy: string, order:
             }
         }
         // 原本排序
-        return originalData.value
+        return originalData
     })
     return {
         sortData,

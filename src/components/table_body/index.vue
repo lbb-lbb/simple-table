@@ -20,7 +20,7 @@
 /**
  * @file 渲染表格body组件
  */
-import {defineProps, withDefaults, toRefs ,toRef} from 'vue'
+import {defineProps, withDefaults} from 'vue'
 import {ColumnsType} from '../types'
 import {useSort} from '../hooks/useSort'
 
@@ -40,8 +40,7 @@ const props = withDefaults(defineProps<TableBodyType>(), {
   data: () => [],
   columns: () => [],
 })
-const { data, orderBy, order, onSort } = toRefs(props)
 
-const { sortData } = useSort(data, orderBy, order, onSort)
+const {sortData} = useSort(props)
 
 </script>

@@ -1,17 +1,13 @@
 /** @format */
 
-import {computed, unref} from 'vue'
-export interface PagesType {
-    total: number
-    size: number
-}
+import {computed, toRefs, ComputedRef} from 'vue'
+import {TableFooterType} from '../types'
 
-export function usePageation(currentPage: number, pages: PagesType) {
-    const currentPageVal = unref(currentPage)
-    const size = unref(pages.size)
-        // 判断下一页是否能点击
-        const isDisablePlusButton: ComputedRef<boolean> = computed(() => {
-        return unref(currentPage) * pages.value.size >= pages.value.total
+export function usePageation(object: TableFooterType) {
+    const {pages, currentPage} = toRefs(object)
+    // 判断下一页是否能点击
+    const isDisablePlusButton: ComputedRef<boolean> = computed(() => {
+        return currentPage.value * pages.value.size >= pages.value.total
     })
     // 判断上一页是否能点击
     const isDisableReduceButton: ComputedRef<boolean> = computed(() => {
@@ -23,4 +19,5 @@ export function usePageation(currentPage: number, pages: PagesType) {
         isDisableReduceButton,
     }
 }
+
 /**/
