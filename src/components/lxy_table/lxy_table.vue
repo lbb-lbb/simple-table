@@ -2,39 +2,39 @@
 
 <template>
   <div>
-    <table class='table'>
-      <table-header v-bind='$attrs'
-                    :columns='columns'
-                    @changeSort='changeSort'>
-        <template v-for='item in columns'
-                  :key='item.value'
-                  v-slot:[addHeaderSlotName(item.value)]='scope'>
-          <slot :name='addHeaderSlotName(item.value)'
-                :item='scope.item'>
+    <table class="table">
+      <table-header v-bind="$attrs"
+                    :columns="columns"
+                    @changeSort="changeSort">
+        <template v-for="item in columns"
+                  :key="item.value"
+                  v-slot:[addHeaderSlotName(item.value)]="scope">
+          <slot :name="addHeaderSlotName(item.value)"
+                :item="scope.item">
 
           </slot>
         </template>
-        <template v-slot:header-options='scope'>
+        <template v-slot:header-options="scope">
           <slot
-              name='header-options'
-              :item='scope.item'></slot>
+              name="header-options"
+              :item="scope.item"></slot>
         </template>
       </table-header>
-      <table-body v-bind='$attrs'
-                  :order-by='orderBy'
-                  :order='order'
-                  :columns='columns'>
-        <template v-for='item in columns'
-                  :key='item.value'
-                  v-slot:[item.value]='scope'>
-          <slot :name='item.value'
-                :item='scope.item'>
+      <table-body v-bind="$attrs"
+                  :order-by="orderBy"
+                  :order="order"
+                  :columns="columns">
+        <template v-for="item in columns"
+                  :key="item.value"
+                  v-slot:[item.value]="scope">
+          <slot :name="item.value"
+                :item="scope.item">
 
           </slot>
         </template>
-        <template v-slot:options='scope'>
-          <slot name='options'
-                :item='scope.item'>
+        <template v-slot:options="scope">
+          <slot name="options"
+                :item="scope.item">
           </slot>
         </template>
       </table-body>
@@ -42,7 +42,7 @@
   </div>
 </template>
 
-<script lang='ts' setup>
+<script lang="ts" setup>
 /**
  * @file 表格组件
  */

@@ -1,17 +1,17 @@
 <!-- @format -->
 
 <template>
-  <div v-if='pages.total' class='page'>
+  <div v-if="pages.total" class="page">
     <div>共{{ pages.total }}条</div>
-    <div @click='reducePage'>当前显示条目{{ pages.size }}</div>
-    <button :disabled='isDisableReduceButton' @click='reducePage'>上一页</button>
+    <div @click="reducePage">当前显示条目{{ pages.size }}</div>
+    <button :disabled="isDisableReduceButton" @click="reducePage">上一页</button>
     <div>当前在第{{ currentPage }}页</div>
-    <button :disabled='isDisablePlusButton' @click='plusPage'>下一页</button>
-    <input placeholder='跳转至' type='number' @input='jumpPage'/>
+    <button :disabled="isDisablePlusButton" @click="plusPage">下一页</button>
+    <input placeholder="跳转至" type="number" @input="jumpPage"/>
   </div>
 </template>
 
-<script lang='ts' setup>
+<script lang="ts" setup>
 /**
  * @file 表格底部分页组件
  */

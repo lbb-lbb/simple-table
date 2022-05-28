@@ -2,21 +2,21 @@
 
 <template>
   <tbody>
-  <tr v-for='item in sortData' :key='item.id'>
-    <td v-for='column in columns' :key='column.value'>
-      <slot :name='column.value' :item='item'>{{ item[column.value] }}</slot>
+  <tr v-for="item in sortData" :key="item.id">
+    <td v-for="column in columns" :key="column.value">
+      <slot :name="column.value" :item="item">{{ item[column.value] }}</slot>
     </td>
-    <td v-if='openOption'>
-      <slot name='options' :item='item'></slot>
+    <td v-if="openOption">
+      <slot name="options" :item="item"></slot>
     </td>
   </tr>
-  <tr v-if='!data.length'>
-    <slot name='empty'>数据为空</slot>
+  <tr v-if="!data.length">
+    <slot name="empty">数据为空</slot>
   </tr>
   </tbody>
 </template>
 
-<script lang='ts' setup>
+<script lang="ts" setup>
 /**
  * @file 渲染表格body组件
  */
