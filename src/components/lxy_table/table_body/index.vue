@@ -20,11 +20,11 @@
 /**
  * @file 渲染表格body组件
  */
-import {defineProps, withDefaults} from 'vue'
-import {ColumnsType} from '../type'
+import {defineProps, toRefs, withDefaults} from 'vue'
+import {ColumnsType, DataType} from '../type'
 import {useSort} from '../hooks/useSort'
 
-interface TableBodyType<T extends {} = Record<string, unknown>> {
+interface TableBodyType<T extends {}> {
   data: T[],
   columns: ColumnsType[],
   orderBy: string,
@@ -33,7 +33,7 @@ interface TableBodyType<T extends {} = Record<string, unknown>> {
   onSort?: (data: T[], option: { orderBy: string, order: string }) => T[]
 }
 
-const props = withDefaults(defineProps<TableBodyType>(), {
+const props = withDefaults(defineProps<TableBodyType<DataType>>(), {
   orderBy: '',
   order: 'sort-normal',
   openOption: false,
@@ -41,6 +41,7 @@ const props = withDefaults(defineProps<TableBodyType>(), {
   columns: () => [],
 })
 
-const {sortData} = useSort(props)
+const { data, orderBy, order } = toRefs(props)
+const {sortData} = useSort<DataType>(data, orderBy, order, props.onSort)
 
 </script>

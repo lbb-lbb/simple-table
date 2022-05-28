@@ -15,7 +15,7 @@
 /**
  * @file 表格底部分页组件
  */
-import {defineProps, withDefaults} from 'vue'
+import {defineProps, toRefs, withDefaults} from 'vue'
 import {usePagination} from './hooks/usePageation'
 
 interface TableFooterType {
@@ -40,10 +40,12 @@ const emit = defineEmits<{
   (e: 'changePage', changePage: number): void
 }>()
 
+const { currentPage, pages } = toRefs(props)
+
 const {
   isDisablePlusButton,
   isDisableReduceButton,
-} = usePagination(props)
+} = usePagination(currentPage, pages)
 
 // 下一页
 function plusPage() {
