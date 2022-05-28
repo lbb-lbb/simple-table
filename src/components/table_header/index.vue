@@ -6,7 +6,7 @@
     <th v-for="(item, index) in columns" :key="item.value">
       <div style="display: flex">
         <slot :name="addHeaderSlotName(item.value)" :item="item">{{ item.label }}</slot>
-        <span :class="[item.sort ? (index === sortIndex ? sortType : 'sort-normal') : '']"
+        <span :class="[item.sort ? (index === sortIndex ? sortType : SORT_ITEM.normal) : '']"
               @click="changeSort(index, item)"
         />
       </div>
@@ -24,7 +24,7 @@
  */
 import {defineProps, ref, withDefaults, defineEmits} from 'vue'
 import {ColumnsType} from '../types'
-import { SORT_ITEM } from '../const'
+import {SORT_ITEM} from '../const'
 import {addHeaderSlotName} from '../util'
 
 interface TableHeader {
@@ -43,7 +43,7 @@ const sortType = ref(SORT_ITEM.normal) // 排序方式
 const sortIndex = ref<number>() // 按那一列排序
 
 
-function changeSort(index: number, item: ColumnsType[]) {
+function changeSort(index: number, item: any) {
   switch (sortType.value) {
     case SORT_ITEM.normal:
       sortIndex.value = index

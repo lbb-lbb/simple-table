@@ -26,15 +26,15 @@ export interface DataType {
 }
 
 export interface TableFooterType {
-    currentPage?: number
-    pages?: PagesType
+    currentPage: number
+    pages: PagesType
 }
 
 export interface TableBodyType<T extends {} = Record<string, unknown>> {
     data: T[]
-    columns: ColumnsType[]
     orderBy: string
     order: string
     openOption?: boolean
+    columns?: ColumnsType[]
     onSort?: (data: T[], option: {orderBy: string; order: string}) => T[]
 }

@@ -6,15 +6,15 @@
     <lxy-table :data='demo1.data' :columns='demo1.columns'></lxy-table>
   </div>
   <div class='demo'>
-    <h2>表格配合开启分页使用（分页事件触发app.vue中的loadData函数）</h2>
+    <h2>表格配合开启分页组件使用（分页事件触发app.vue中的loadData函数,从新赋值表格data）</h2>
     <lxy-table
-        v-model:currentPage='demo2.currentPage'
-        :data='demo2.data'
-        :columns='demo2.columns'
-        :pages='demo2.pages'
-        @change-page='loadData'
+      :data='demo2.data'
+      :columns='demo2.columns'
     >
     </lxy-table>
+    <pagination v-model:current-page='demo2.currentPage'
+                :pages='demo2.pages'
+                @change-page='loadData'/>
   </div>
   <div class='demo'>
     <h2>表格开启操作列，操作列自定义插槽</h2>
@@ -55,6 +55,7 @@
 <script lang='ts' setup>
 import {reactive} from 'vue'
 import lxyTable from './components/lxy_table.vue'
+import Pagination from "./components/pagination.vue";
 
 const data = [
   {id: 1, name: 'Liz Lemon', age: 36, is_manager: true, start_date: '02-28-1999', date: new Date('1998-05-16')},

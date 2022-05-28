@@ -14,6 +14,7 @@ export function useSort(object: TableBodyType) {
         const onSort = unref(props.onSort)
         if (orderBy) {
             if (onSort) {
+                console.log('自定义排序')
                 try {
                     // 存在自定义回调函数，则调用返回
                     return onSort(originalData, {orderBy: orderBy, order: order})
@@ -24,6 +25,7 @@ export function useSort(object: TableBodyType) {
             const data: Partial<DataType> = originalData.slice()
             if (order === SORT_ITEM.asc) {
                 // 正序
+                console.log('正序排序')
                 return data.sort((a: any, b: any) => {
                     const aName = a[orderBy]
                     const bName = b[orderBy]
@@ -35,7 +37,8 @@ export function useSort(object: TableBodyType) {
                 })
             }
             if (order === SORT_ITEM.desc) {
-                // 倒序
+                // 倒序、
+                console.log('倒序排序')
                 return data.sort((a: any, b: any) => {
                     const aName = a[orderBy]
                     const bName = b[orderBy]
@@ -47,6 +50,7 @@ export function useSort(object: TableBodyType) {
             }
         }
         // 原本排序
+        console.log('原序排序')
         return originalData
     })
     return {

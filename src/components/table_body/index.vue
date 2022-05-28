@@ -30,7 +30,7 @@ interface TableBodyType<T extends {} = Record<string, unknown>> {
   orderBy: string,
   order: string,
   openOption?: boolean,
-  onSort?: (data: T[], option: {orderBy: string, order: string}) => T[]
+  onSort?: (data: T[], option: { orderBy: string, order: string }) => T[]
 }
 
 const props = withDefaults(defineProps<TableBodyType>(), {
