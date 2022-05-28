@@ -54,8 +54,8 @@
 
 <script lang='ts' setup>
 import {reactive} from 'vue'
-import lxyTable from './components/lxy_table.vue'
-import Pagination from "./components/pagination.vue";
+import lxyTable from './components/lxy_table/lxy_table.vue'
+import Pagination from "./components/pagination/pagination.vue";
 
 const data = [
   {id: 1, name: 'Liz Lemon', age: 36, is_manager: true, start_date: '02-28-1999', date: new Date('1998-05-16')},

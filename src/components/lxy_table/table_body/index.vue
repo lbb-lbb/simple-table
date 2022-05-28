@@ -21,7 +21,7 @@
  * @file 渲染表格body组件
  */
 import {defineProps, withDefaults} from 'vue'
-import {ColumnsType} from '../types'
+import {ColumnsType} from '../type'
 import {useSort} from '../hooks/useSort'
 
 interface TableBodyType<T extends {} = Record<string, unknown>> {

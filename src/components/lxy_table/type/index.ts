@@ -8,11 +8,6 @@ export interface ColumnsType {
     sortType?: string
 }
 
-// 分页接口
-export interface PagesType {
-    total: number
-    size: number
-}
 
 export interface DataType {
     id: number | string
@@ -25,10 +20,6 @@ export interface DataType {
     [key: string]: any
 }
 
-export interface TableFooterType {
-    currentPage: number
-    pages: PagesType
-}
 
 export interface TableBodyType<T extends {} = Record<string, unknown>> {
     data: T[]

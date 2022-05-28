@@ -1,8 +1,8 @@
 /** @format */
 
 import {computed, toRefs, unref} from 'vue'
-import {TableBodyType, DataType} from '../types'
-import {SORT_ITEM} from '../const'
+import {TableBodyType, DataType} from '../type'
+import {SORT_ITEM} from '../../../const'
 
 export function useSort(object: TableBodyType) {
     const props = toRefs(object)

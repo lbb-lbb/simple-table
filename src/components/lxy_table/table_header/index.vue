@@ -23,9 +23,9 @@
  * @file 渲染表格header组件
  */
 import {defineProps, ref, withDefaults, defineEmits} from 'vue'
-import {ColumnsType} from '../types'
-import {SORT_ITEM} from '../const'
-import {addHeaderSlotName} from '../util'
+import {ColumnsType} from '../type'
+import {SORT_ITEM} from '../../../const'
+import {addHeaderSlotName} from '../../../util'
 
 interface TableHeader {
   columns?: ColumnsType[],

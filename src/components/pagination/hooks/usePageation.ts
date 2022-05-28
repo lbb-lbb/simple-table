@@ -1,7 +1,7 @@
 /** @format */
 
 import {computed, toRefs, ComputedRef} from 'vue'
-import {TableFooterType} from '../types'
+import {TableFooterType} from '../type'
 
 export function usePagination(object: TableFooterType) {
     const props = toRefs(object)

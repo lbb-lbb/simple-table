@@ -47,11 +47,11 @@
  * @file 表格组件
  */
 import {ref, defineProps, withDefaults, onBeforeMount} from 'vue'
-import {ColumnsType} from './types'
+import {ColumnsType} from './type'
 import TableBody from './table_body/index.vue'
 import TableHeader from './table_header/index.vue'
-import {SORT_ITEM} from './const'
-import {addHeaderSlotName} from './util'
+import {SORT_ITEM} from '../../const'
+import {addHeaderSlotName} from '../../util'
 
 
 onBeforeMount(() => {
