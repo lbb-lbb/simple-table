@@ -46,7 +46,7 @@
 /**
  * @file 表格组件
  */
-import {ref, defineProps, withDefaults, onBeforeMount} from 'vue'
+import {ref, defineProps, onBeforeMount} from 'vue'
 import {ColumnsType} from './type'
 import TableBody from './table_body/index.vue'
 import TableHeader from './table_header/index.vue'
@@ -60,10 +60,7 @@ onBeforeMount(() => {
   }
 })
 
-
-const props = withDefaults(defineProps<{ columns: ColumnsType[] }>(), {
-  columns: () => [],
-})
+const props = defineProps<{ columns: ColumnsType[] }>()
 const orderBy = ref('')
 const order = ref(SORT_ITEM.normal)
 

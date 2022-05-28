@@ -2,17 +2,17 @@
 
 <template>
   <tbody>
-  <tr v-for="item in sortData" :key="item.id">
-    <td v-for="column in columns" :key="column.value">
-      <slot :name="column.value" :item="item">{{ item[column.value] }}</slot>
-    </td>
-    <td v-if="openOption">
-      <slot name="options" :item="item"></slot>
-    </td>
-  </tr>
-  <tr v-if="!data.length">
-    <slot name="empty">数据为空</slot>
-  </tr>
+    <tr v-for="item in sortData" :key="item.id">
+      <td v-for="column in columns" :key="column.value">
+        <slot :name="column.value" :item="item">{{ item[column.value] }}</slot>
+      </td>
+      <td v-if="openOption">
+        <slot name="options" :item="item"></slot>
+      </td>
+    </tr>
+    <tr v-if="!data">
+      <slot name="empty">数据为空</slot>
+    </tr>
   </tbody>
 </template>
 
@@ -23,22 +23,21 @@
 import {defineProps, toRefs, withDefaults} from 'vue'
 import {ColumnsType, DataType} from '../type'
 import {useSort} from '../hooks/useSort'
+import {SORT_ITEM} from "../../../const";
 
 interface TableBodyType<T extends {}> {
   data: T[],
   columns: ColumnsType[],
-  orderBy: string,
-  order: string,
+  orderBy?: string,
+  order?: string,
   openOption?: boolean,
   onSort?: (data: T[], option: { orderBy: string, order: string }) => T[]
 }
 
 const props = withDefaults(defineProps<TableBodyType<DataType>>(), {
   orderBy: '',
-  order: 'sort-normal',
+  order: SORT_ITEM.normal,
   openOption: false,
-  data: () => [],
-  columns: () => [],
 })
 
 const { data, orderBy, order } = toRefs(props)

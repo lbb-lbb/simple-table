@@ -30,7 +30,7 @@ export function useSort<T>(data: Ref<T[]>, orderBy: Ref<string>, order: Ref<stri
                     const bName = b[useOrderBy]
                     if (typeof aName === 'string') {
                         // 字符串排序用localeCompare判断
-                        return aName.localeCompare(bName)
+                        return aName.localeCompare(bName, '', { numeric: true })
                     }
                     return aName - bName
                 })
@@ -42,7 +42,7 @@ export function useSort<T>(data: Ref<T[]>, orderBy: Ref<string>, order: Ref<stri
                     const aName = a[useOrderBy]
                     const bName = b[useOrderBy]
                     if (typeof aName === 'string') {
-                        return bName.localeCompare(aName)
+                        return bName.localeCompare(aName, '', { numeric: true })
                     }
                     return bName - aName
                 })

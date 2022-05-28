@@ -10,13 +10,6 @@ export interface ColumnsType {
 
 
 export interface DataType {
-    id: number | string
-    name: string
-    age: number
-    is_manager: boolean
-    start_date: string
-    date: Date
-
     [key: string]: any
 }
 

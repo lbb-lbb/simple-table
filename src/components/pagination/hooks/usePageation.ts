@@ -3,7 +3,7 @@
 import {computed, ComputedRef, Ref} from 'vue'
 import {PagesType} from '../type'
 
-export function usePagination(currentPage: Ref<number>, pages: Ref<PagesType> ) {
+export function usePagination(currentPage: Ref<number>, pages: Ref<PagesType>) {
 
     // 判断下一页是否能点击
     const isDisablePlusButton: ComputedRef<boolean> = computed(() => {
