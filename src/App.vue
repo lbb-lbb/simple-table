@@ -46,7 +46,7 @@
   </div>
   <div class="demo">
     <h2>data为空时候</h2>
-    <lxy-table :on-sort="onSort" :columns="demo4.columns"></lxy-table>
+    <lxy-table :columns="demo4.columns"></lxy-table>
   </div>
 </template>
 

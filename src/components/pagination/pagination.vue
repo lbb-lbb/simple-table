@@ -7,8 +7,8 @@
     <button class="per-btn" :disabled="isDisableReduceButton" @click="reducePage">上一页</button>
     <div class="page-current">当前在第{{ currentPage }}页</div>
     <button class="next-btn" :disabled="isDisablePlusButton" @click="plusPage">下一页</button>
-    <input class="page-input" placeholder="跳转至" type="number" v-model.number="value"/>
-    <button class="next-submit" @click="jumpPage">确定跳转</button>
+    <input class="page-input" :class="{valid: isValid}" placeholder="跳转至" type="number" v-model.number="inputValue"/>
+    <button class="next-submit" @click="jumpPage(inputValue)">确定跳转</button>
   </div>
 </template>
 
@@ -16,7 +16,7 @@
 /**
  * @file 表格底部分页组件
  */
-import {defineProps, ref, toRefs} from 'vue'
+import {ref, toRefs} from 'vue'
 import {usePagination} from './hooks/usePageation'
 
 interface TableFooterType {
@@ -37,35 +37,17 @@ const emit = defineEmits<{
 
 const { currentPage, pages } = toRefs(props)
 
+const inputValue = ref(currentPage.value)
+
 const {
   isDisablePlusButton,
   isDisableReduceButton,
-} = usePagination(currentPage, pages)
-
-const value = ref(currentPage.value)
-
-// 下一页
-function plusPage() {
-  console.log('下一页点击')
-  const unit = props.currentPage + 1
-  changePage(unit)
-}
-
-// 上一页
-function reducePage() {
-  console.log('上一页点击')
-  const unit = props.currentPage - 1
-  changePage(unit)
-}
-
-function jumpPage() {
-  if (value.value <= 0) {
-    console.trace('输入的页数必须大于0')
-    return
-  }
-  console.log(`跳转至第${value.value}页`)
-  changePage(value.value)
-}
+  value,
+  isValid,
+  plusPage,
+  reducePage,
+  jumpPage
+} = usePagination(currentPage, pages, changePage)
 
 function changePage(currentPage: number) {
   emit('update:currentPage', currentPage) // 改变当前页
@@ -77,5 +59,8 @@ function changePage(currentPage: number) {
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
+}
+.valid {
+  border: 1px solid red
 }
 </style>

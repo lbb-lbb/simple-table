@@ -1,0 +1,9 @@
+// Vitest Snapshot v1
+
+exports[`注入props数据是否正常展示分页 1`] = `
+"<div class=\\"page\\" data-v-440179cf=\\"\\">
+  <div class=\\"page-total\\" data-v-440179cf=\\"\\">共99条</div>
+  <div class=\\"page-size\\" data-v-440179cf=\\"\\">当前显示条目20</div><button class=\\"per-btn\\" data-v-440179cf=\\"\\">上一页</button>
+  <div class=\\"page-current\\" data-v-440179cf=\\"\\">当前在第2页</div><button class=\\"next-btn\\" data-v-440179cf=\\"\\">下一页</button><input class=\\"page-input\\" placeholder=\\"跳转至\\" type=\\"number\\" data-v-440179cf=\\"\\"><button class=\\"next-submit\\" data-v-440179cf=\\"\\">确定跳转</button>
+</div>"
+`;

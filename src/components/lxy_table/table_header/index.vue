@@ -1,12 +1,12 @@
-<!-- @format -->
-
 <template>
   <thead>
     <tr>
       <th v-for="(item, index) in columns" :key="item.value">
-        <div style="display: flex">
+        <div style="display: flex"
+             class="header-wrapper">
           <slot :name="addHeaderSlotName(item.value)" :item="item">{{ item.label }}</slot>
-          <span :class="[item.sort ? (index === sortIndex ? sortType : SORT_ITEM.normal) : '']"
+          <span class="header-filter"
+                :class="[item.sort ? (index === sortIndex ? sortType : SORT_ITEM.normal) : '']"
                 @click="changeSort(index, item)"
           />
         </div>

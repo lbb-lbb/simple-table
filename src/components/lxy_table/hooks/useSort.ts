@@ -1,5 +1,3 @@
-/** @format */
-
 import {computed, unref, Ref} from 'vue'
 import {DataType} from '../type'
 import {SORT_ITEM} from '../../../const'

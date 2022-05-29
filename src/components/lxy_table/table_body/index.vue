@@ -1,17 +1,21 @@
 <!-- @format -->
 
 <template>
-  <tbody>
+  <tbody class="table-body">
     <tr v-for="item in sortData" :key="item.id">
       <td v-for="column in columns" :key="column.value">
         <slot :name="column.value" :item="item">{{ item[column.value] }}</slot>
       </td>
       <td v-if="openOption">
-        <slot name="options" :item="item"></slot>
+        <div class="body-option">
+          <slot name="options" :item="item"></slot>
+        </div>
       </td>
     </tr>
-    <tr v-if="!data">
-      <slot name="empty">数据为空</slot>
+    <tr v-if="!data.length">
+      <div class="body-empty">
+        <slot name="empty">数据为空</slot>
+      </div>
     </tr>
   </tbody>
 </template>
@@ -26,8 +30,8 @@ import {useSort} from '../hooks/useSort'
 import {SORT_ITEM} from "../../../const";
 
 interface TableBodyType<T extends {}> {
-  data: T[],
   columns: ColumnsType[],
+  data?: T[],
   orderBy?: string,
   order?: string,
   openOption?: boolean,
@@ -35,6 +39,7 @@ interface TableBodyType<T extends {}> {
 }
 
 const props = withDefaults(defineProps<TableBodyType<DataType>>(), {
+  data: () => [],
   orderBy: '',
   order: SORT_ITEM.normal,
   openOption: false,
