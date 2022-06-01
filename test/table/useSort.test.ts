@@ -24,7 +24,7 @@ test('使用默认的排序', async () => {
   const ascWrapper = useSort(data, orderByName, asc, undefined)
 
   const ascData = data.value.sort((a: any, b: any) => {
-    return a[orderByName.value].localeCompare(b[orderByName.value], '', { numeric: true })
+    return String(a[orderByName.value]).localeCompare(String(b[orderByName.value]), 'en', { numeric: true })
   })
 
   expect(ascWrapper.sortData.value === ascData).toEqual(true)

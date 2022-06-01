@@ -1,5 +1,3 @@
-<!-- @format -->
-
 <template>
   <div v-if="pages.total" class="page">
     <div class="page-total">共{{ pages.total }}条</div>
@@ -18,15 +16,11 @@
  */
 import {ref, toRefs} from 'vue'
 import {usePagination} from './hooks/usePageation'
+import {PagesType} from "./type";
 
-interface TableFooterType {
+export interface TableFooterType {
   currentPage: number,
   pages: PagesType
-}
-
-interface PagesType {
-  total: number
-  size: number
 }
 
 const props = defineProps<TableFooterType>()

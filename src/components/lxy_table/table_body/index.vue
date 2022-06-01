@@ -1,22 +1,20 @@
-<!-- @format -->
-
 <template>
   <tbody class="table-body">
-    <tr v-for="item in sortData" :key="item.id">
-      <td v-for="column in columns" :key="column.value">
-        <slot :name="column.value" :item="item">{{ item[column.value] }}</slot>
-      </td>
-      <td v-if="openOption">
-        <div class="body-option">
-          <slot name="options" :item="item"></slot>
-        </div>
-      </td>
-    </tr>
-    <tr v-if="!data.length">
-      <div class="body-empty">
-        <slot name="empty">数据为空</slot>
+  <tr v-for="item in sortData" :key="item.id">
+    <td v-for="column in columns" :key="column.value">
+      <slot :name="column.value" :item="item">{{ item[column.value] }}</slot>
+    </td>
+    <td v-if="openOption">
+      <div class="body-option">
+        <slot name="options" :item="item"></slot>
       </div>
-    </tr>
+    </td>
+  </tr>
+  <tr v-if="!data.length">
+    <div class="body-empty">
+      <slot name="empty">数据为空</slot>
+    </div>
+  </tr>
   </tbody>
 </template>
 
@@ -29,7 +27,7 @@ import {ColumnsType, DataType} from '../type'
 import {useSort} from '../hooks/useSort'
 import {SORT_ITEM} from "../../../const";
 
-interface TableBodyType<T extends {}> {
+interface TableBodyType<T extends Record<string, any>> {
   columns: ColumnsType[],
   data?: T[],
   orderBy?: string,
