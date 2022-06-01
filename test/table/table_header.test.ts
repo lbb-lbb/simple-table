@@ -14,7 +14,8 @@ test('表头数据配sort为true时出现排序图标', async () => {
   const wrapper = myWrapper(tableHeader, {props: {columns: COLUMNS}})
   const thList = wrapper.findAll('th')
 
-  expect(thList[0].get('.header-filter').classes()).toContain(SORT_ITEM.normal)
+  expect(thList.length).toEqual(5)
+  // 传入的数据只有第一列开启了排序功能
   expect(thList[0].get('.header-filter').classes(SORT_ITEM.normal)).toBe(true)
   expect(thList[1].get('.header-filter').classes(SORT_ITEM.normal)).toBe(false)
 })
@@ -35,21 +36,20 @@ test('点击排序，排序图标由原序转为顺序正序-倒叙-原序', asy
 
   expect(changeSortEvent).toBeTruthy()
 
-
   await wrapper.setData({
-    sortType: (changeSortEvent![0] as any)[0].sort
+    sortType: (changeSortEvent![0])[0].sort
   })
   expect(sortElement.classes()).toContain(SORT_ITEM.asc)
 // 第二次点击，正序变倒叙
   await sortElement.trigger('click')
   await wrapper.setData({
-    sortType: (changeSortEvent![1] as any)[0].sort
+    sortType: (changeSortEvent![1])[0].sort
   })
   expect(sortElement.classes()).toContain(SORT_ITEM.desc)
 // 第三次点击，倒叙变原序
   await sortElement.trigger('click')
   await wrapper.setData({
-    sortType: (changeSortEvent![2] as any)[0].sort
+    sortType: (changeSortEvent![2])[0].sort
   })
   expect(sortElement.classes()).toContain(SORT_ITEM.normal)
 

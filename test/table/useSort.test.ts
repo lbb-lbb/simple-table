@@ -1,19 +1,19 @@
-import { expect, test } from "vitest";
+import { expect, test, vi } from "vitest";
 import { useSort } from "../../src/components/lxy_table/hooks/useSort";
 import { ref } from 'vue'
-import {DATA} from "../const";
 import {SORT_ITEM} from "../../src/const";
+import {withSetup} from "../util";
 
-const data = ref(DATA)
+const ascDataFormName = [{name: 'a', age: 1}, {name: 'b', age: 3}, {name: 'c', age: 2}]
+const descDataFormAge = [{name: 'b', age: 3}, {name: 'c', age: 2}, {name: 'a', age: 1}]
+const data = ref([{name: 'c', age: 2}, {name: 'a', age: 1}, {name: 'b', age: 3}])
 const orderByName = ref('name')
 const normal = ref(SORT_ITEM.normal)
 const asc = ref(SORT_ITEM.asc)
 const desc = ref(SORT_ITEM.desc)
-const orderByAge = ref('name')
+const orderByAge = ref('age')
 // 自定义回调排序
-function onSort() {
-  return []
-}
+const onSort = vi.fn((data:Record<string, any>, option: Record<string, string>) => data[0])
 
 test('使用默认的排序', async () => {
   const normalWrapper = useSort(data, orderByName, normal, undefined)
@@ -23,25 +23,17 @@ test('使用默认的排序', async () => {
   // 基于name列正序
   const ascWrapper = useSort(data, orderByName, asc, undefined)
 
-  const ascData = data.value.sort((a: any, b: any) => {
-    return a[orderByName.value].localeCompare(b[orderByName.value], '', { numeric: true })
-  })
-
-  expect(ascWrapper.sortData.value === ascData).toEqual(true)
+  expect(ascWrapper.sortData.value).toEqual(ascDataFormName)
 
   // 基于age列倒序
   const descWrapper = useSort(data, orderByAge, desc, undefined)
-
-  const descData = data.value.sort((a: any, b: any) => {
-    return b[orderByAge.value] - a[orderByAge.value]
-  })
-
-  expect(descWrapper.sortData.value === descData).toEqual(true)
+  expect(descWrapper.sortData.value).toEqual(descDataFormAge)
 })
 
 test('使用自定义回调的排序', async () => {
-  const wrapper = useSort(data, orderByName, desc, onSort)
-
-  // 设置回调返回的是个空数组
-  expect(wrapper.sortData.value).toHaveLength(0)
+  const [result, app] = withSetup(() => useSort(data, orderByName, desc, onSort))
+  // 回调onSort调用返回的是个空数组
+  expect(result!.sortData.value).toEqual({name: 'c', age: 2})
+  data.value = descDataFormAge
+  expect(result!.sortData.value).toEqual({name: 'b', age: 3})
 })

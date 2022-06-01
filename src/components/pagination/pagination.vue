@@ -1,5 +1,3 @@
-<!-- @format -->
-
 <template>
   <div v-if="pages.total" class="page">
     <div class="page-total">共{{ pages.total }}条</div>
@@ -18,21 +16,16 @@
  */
 import {ref, toRefs} from 'vue'
 import {usePagination} from './hooks/usePageation'
+import {PagesType} from "./type";
 
 interface TableFooterType {
   currentPage: number,
   pages: PagesType
 }
 
-interface PagesType {
-  total: number
-  size: number
-}
-
 const props = defineProps<TableFooterType>()
 const emit = defineEmits<{
-  (e: 'update:currentPage', changePage: number): void,
-  (e: 'changePage', changePage: number): void
+  (e: 'update:currentPage', changePage: number) : void // 更新双向绑定的值
 }>()
 
 const { currentPage, pages } = toRefs(props)
@@ -51,7 +44,6 @@ const {
 
 function changePage(currentPage: number) {
   emit('update:currentPage', currentPage) // 改变当前页
-  emit('changePage', currentPage)
 }
 </script>
 <style scoped>

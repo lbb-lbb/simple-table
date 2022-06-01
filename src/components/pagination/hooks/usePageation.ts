@@ -1,8 +1,6 @@
-/** @format */
-
 import {computed, ComputedRef, Ref, ref, watch} from 'vue'
 import {PagesType} from '../type'
-import {isInteger} from "../../../util";
+import {err, info, isInteger} from "../../../util";
 
 export function usePagination(currentPage: Ref<number>, pages: Ref<PagesType>, changePage: (value: number) => void) {
 
@@ -17,27 +15,28 @@ export function usePagination(currentPage: Ref<number>, pages: Ref<PagesType>, c
 
     const value = ref(currentPage.value)
 
-    const isValid = ref(false)
+    const isValid = ref(false)  // isValid为false代表跳页检验成功，可以跳页
 
     watch(value, (newVal) => {
-        if (isInteger(String(newVal)) && newVal > 0) {  // 大于0的整数
+        // 非0整数，且小于等于跳转边界才能跳页
+        if (isInteger(String(newVal)) && newVal <= Math.ceil(pages.value.total / pages.value.size) && newVal * pages.value.size > 0) {
             isValid.value = false
-            console.log(`从第${currentPage.value}页跳往${newVal}页`)
+            info(`从第${currentPage.value}页跳往${newVal}页`)
             changePage(newVal)
         } else {
-            console.log('输入错误, 输入页数必须为大于0的整数')
+            err(`跳转页数错误，跳转页数必须是大于0的整数，且小于等于${Math.ceil(pages.value.total / pages.value.size) }`)
             isValid.value = true
         }
     })
 
     // 下一页
     function plusPage() {
-        value.value = value.value + 1
+        value.value = currentPage.value + 1
     }
 
     // 上一页
     function reducePage() {
-        value.value = value.value - 1
+        value.value = currentPage.value - 1
     }
 
     function jumpPage(val: number) {
@@ -55,4 +54,3 @@ export function usePagination(currentPage: Ref<number>, pages: Ref<PagesType>, c
     }
 }
 
-/**/

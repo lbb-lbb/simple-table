@@ -12,9 +12,19 @@ test('data为空显示空状态', async () =>{
   await wrapper.setProps({
     data: DATA
   })
-
   // 传入data，empty元素消失
-  expect(() => wrapper.get('.body-empty')).toThrowError()
+  expect(wrapper.find('.body-empty').exists()).toBe(false)
+})
+
+test('插槽', async () => {
+  const wrapper = myWrapper(tableBody, {
+    props: { columns: COLUMNS },
+    slots: {
+      empty: '<div id="one">插槽内容: 数据为空</div>' // data数据为空时
+    }
+  })
+
+  expect(wrapper.find('#one').exists()).toBe(true)
 })
 
 test('操作列的显隐', async () => {
@@ -32,7 +42,7 @@ test('操作列的显隐', async () => {
     openOption: false
   })
 
-  expect(() => wrapper.get('.body-option')).toThrowError()
+  expect(wrapper.find('.body-option').exists()).toBe(false)
 
 })
 
