@@ -1,0 +1,47 @@
+// Vitest Snapshot v1
+
+exports[`mount 1`] = `
+"<thead data-v-5f17bdb8=\\"\\">
+  <tr data-v-5f17bdb8=\\"\\">
+    <th data-v-5f17bdb8=\\"\\">
+      <div style=\\"display: flex;\\" class=\\"header-wrapper\\" data-v-5f17bdb8=\\"\\">Name<span class=\\"header-filter sort-normal\\" data-v-5f17bdb8=\\"\\"></span></div>
+    </th>
+    <th data-v-5f17bdb8=\\"\\">
+      <div style=\\"display: flex;\\" class=\\"header-wrapper\\" data-v-5f17bdb8=\\"\\">Age<span class=\\"header-filter\\" data-v-5f17bdb8=\\"\\"></span></div>
+    </th>
+    <th data-v-5f17bdb8=\\"\\">
+      <div style=\\"display: flex;\\" class=\\"header-wrapper\\" data-v-5f17bdb8=\\"\\">Manager<span class=\\"header-filter\\" data-v-5f17bdb8=\\"\\"></span></div>
+    </th>
+    <th data-v-5f17bdb8=\\"\\">
+      <div style=\\"display: flex;\\" class=\\"header-wrapper\\" data-v-5f17bdb8=\\"\\">Start Date<span class=\\"header-filter\\" data-v-5f17bdb8=\\"\\"></span></div>
+    </th>
+    <th data-v-5f17bdb8=\\"\\">
+      <div style=\\"display: flex;\\" class=\\"header-wrapper\\" data-v-5f17bdb8=\\"\\">时间<span class=\\"header-filter\\" data-v-5f17bdb8=\\"\\"></span></div>
+    </th>
+    <!--v-if-->
+  </tr>
+</thead>"
+`;
+
+exports[`开启操作列 1`] = `
+"<thead data-v-5f17bdb8=\\"\\">
+  <tr data-v-5f17bdb8=\\"\\">
+    <th data-v-5f17bdb8=\\"\\">
+      <div style=\\"display: flex;\\" class=\\"header-wrapper\\" data-v-5f17bdb8=\\"\\">Name<span class=\\"header-filter sort-normal\\" data-v-5f17bdb8=\\"\\"></span></div>
+    </th>
+    <th data-v-5f17bdb8=\\"\\">
+      <div style=\\"display: flex;\\" class=\\"header-wrapper\\" data-v-5f17bdb8=\\"\\">Age<span class=\\"header-filter\\" data-v-5f17bdb8=\\"\\"></span></div>
+    </th>
+    <th data-v-5f17bdb8=\\"\\">
+      <div style=\\"display: flex;\\" class=\\"header-wrapper\\" data-v-5f17bdb8=\\"\\">Manager<span class=\\"header-filter\\" data-v-5f17bdb8=\\"\\"></span></div>
+    </th>
+    <th data-v-5f17bdb8=\\"\\">
+      <div style=\\"display: flex;\\" class=\\"header-wrapper\\" data-v-5f17bdb8=\\"\\">Start Date<span class=\\"header-filter\\" data-v-5f17bdb8=\\"\\"></span></div>
+    </th>
+    <th data-v-5f17bdb8=\\"\\">
+      <div style=\\"display: flex;\\" class=\\"header-wrapper\\" data-v-5f17bdb8=\\"\\">时间<span class=\\"header-filter\\" data-v-5f17bdb8=\\"\\"></span></div>
+    </th>
+    <th data-v-5f17bdb8=\\"\\">操作</th>
+  </tr>
+</thead>"
+`;
