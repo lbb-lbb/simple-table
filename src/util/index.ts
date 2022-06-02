@@ -18,11 +18,6 @@ export function err(message: unknown) {
         console.error(message + '----------------' + loggerMessage())
     }
 }
-export function trace(message: unknown) {
-    if (import.meta.env.MODE !== 'production') {
-        console.trace(message + '----------------' + loggerMessage())
-    }
-}
 
 export function warn(message: unknown) {
     if (import.meta.env.MODE !== 'production') {
@@ -32,4 +27,5 @@ export function warn(message: unknown) {
 function loggerMessage() {
     return `components name [lxy-table] ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
 }
+
 

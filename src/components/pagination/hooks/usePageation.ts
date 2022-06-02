@@ -18,7 +18,8 @@ export function usePagination(currentPage: Ref<number>, pages: Ref<PagesType>, c
     const isValid = ref(false)  // isValid为false代表跳页检验成功，可以跳页
 
     watch(value, (newVal) => {
-        if (isInteger(String(newVal)) && newVal <= Math.ceil(pages.value.total / pages.value.size) && newVal * pages.value.size > 0) {  // 大于0的整数
+        // 非0整数，且小于等于跳转边界才能跳页
+        if (isInteger(String(newVal)) && newVal <= Math.ceil(pages.value.total / pages.value.size) && newVal * pages.value.size > 0) {
             isValid.value = false
             info(`从第${currentPage.value}页跳往${newVal}页`)
             changePage(newVal)

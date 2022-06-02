@@ -1,5 +1,3 @@
-<!-- @format -->
-
 <template>
   <div>
     <table class="table">
@@ -48,12 +46,12 @@
 /**
  * @file 表格组件
  */
-import {ref, onBeforeMount, withDefaults} from 'vue'
-import {ColumnsType, DataType} from './type'
+import {ref, onBeforeMount, withDefaults, computed} from 'vue'
+import {ColumnsType} from './type'
 import TableBody from './table_body/index.vue'
 import TableHeader from './table_header/index.vue'
 import {SORT_ITEM} from '../../const'
-import {addHeaderSlotName, warn} from '../../util'
+import {addHeaderSlotName, err, warn} from '../../util'
 
 interface TableType<T extends {}> {
   columns: ColumnsType[],
@@ -66,12 +64,17 @@ interface TableType<T extends {}> {
 
 
 onBeforeMount(() => {
-  if (!props.columns.length) {
+  if (props.columns && props.columns.length) {
     warn('传入的columns必须是个非空数组')
+    return
+  }
+  if (props.columns && props.columns.findIndex((v => v.value === 'option')) && props.openOption) {
+    err('开启的操作列插槽名与columns里的value存在重名')
+    return
   }
 })
 
-const props = withDefaults(defineProps<TableType<DataType>>(),{
+const props = withDefaults(defineProps<TableType<Record<string, any>>>(),{
   openOption: false
 })
 const orderBy = ref('')
@@ -82,7 +85,7 @@ const order = ref(SORT_ITEM.normal)
  * @param item 排序的表头数据
  * @param type 排序的方式标识
  */
-function changeSort(item: ColumnsType, type: string) {
+function changeSort(item: ColumnsType, type: (typeof SORT_ITEM)[keyof typeof SORT_ITEM]) {
   orderBy.value = item.value
   order.value = type
 }
