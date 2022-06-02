@@ -1,9 +1,7 @@
-<!-- @format -->
-
 <template>
   <div>
     <table class="table">
-      <table-header v-bind="$attrs"
+      <table-header :open-option="openOption"
                     :columns="columns"
                     @changeSort="changeSort">
         <template v-for="item in columns"
@@ -20,9 +18,11 @@
               :item="scope.item"></slot>
         </template>
       </table-header>
-      <table-body v-bind="$attrs"
+      <table-body :open-option="openOption"
+                  :data="data"
                   :order-by="orderBy"
                   :order="order"
+                  :on-sort="onSort"
                   :columns="columns">
         <template v-for="item in columns"
                   :key="item.value"
@@ -46,21 +46,37 @@
 /**
  * @file 表格组件
  */
-import {ref, defineProps, onBeforeMount} from 'vue'
+import {ref, onBeforeMount, withDefaults, computed} from 'vue'
 import {ColumnsType} from './type'
 import TableBody from './table_body/index.vue'
 import TableHeader from './table_header/index.vue'
 import {SORT_ITEM} from '../../const'
-import {addHeaderSlotName} from '../../util'
+import {addHeaderSlotName, err, warn} from '../../util'
+
+interface TableType<T extends {}> {
+  columns: ColumnsType[],
+  data?: T[],
+  orderBy?: string,
+  order?: string,
+  openOption?: boolean,
+  onSort?: (data: T[], option: { orderBy: string, order: string }) => T[]
+}
 
 
 onBeforeMount(() => {
-  if (!props.columns.length) {
-    console.trace('传入的表头数据columns不能为空')
+  if (props.columns && props.columns.length) {
+    warn('传入的columns必须是个非空数组')
+    return
+  }
+  if (props.columns && props.columns.findIndex((v => v.value === 'option')) && props.openOption) {
+    err('开启的操作列插槽名与columns里的value存在重名')
+    return
   }
 })
 
-const props = defineProps<{ columns: ColumnsType[] }>()
+const props = withDefaults(defineProps<TableType<Record<string, any>>>(),{
+  openOption: false
+})
 const orderBy = ref('')
 const order = ref(SORT_ITEM.normal)
 
@@ -69,8 +85,7 @@ const order = ref(SORT_ITEM.normal)
  * @param item 排序的表头数据
  * @param type 排序的方式标识
  */
-function changeSort(item: any, type: string) {
-  console.log(`根据${item.value}列进行排序`)
+function changeSort(item: ColumnsType, type: (typeof SORT_ITEM)[keyof typeof SORT_ITEM]) {
   orderBy.value = item.value
   order.value = type
 }

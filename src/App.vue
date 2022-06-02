@@ -1,13 +1,14 @@
 <template>
   <div class="demo">
     <h2>基础使用,渲染表头和表格内容</h2>
-    <lxy-table :data='demo1.data' :columns='demo1.columns'></lxy-table>
+    <lxy-table :data='demo1.data'
+               :columns='demo1.columns'>
+    </lxy-table>
   </div>
   <div class="demo">
     <h2>表格配合开启分页组件使用（分页事件触发app.vue中的loadData函数,从新赋值表格data）</h2>
-    <lxy-table
-        :data="demo2.data"
-        :columns="demo2.columns"
+    <lxy-table :data="demo2.data"
+               :columns="demo2.columns"
     >
     </lxy-table>
     <pagination v-model:current-page="demo2.currentPage"
@@ -16,7 +17,9 @@
   </div>
   <div class="demo">
     <h2>表格开启操作列，操作列自定义插槽</h2>
-    <lxy-table :data="demo3.data" :open-option="demo3.openOption" :columns="demo3.columns">
+    <lxy-table :data="demo3.data"
+               :open-option="demo3.openOption"
+               :columns="demo3.columns">
       <template v-slot:header-options="scope">
         <div>自定义操作列表头{{ scope }}</div>
       </template>
@@ -27,7 +30,8 @@
   </div>
   <div class="demo">
     <h2>自定义渲染表头和表格内容</h2>
-    <lxy-table :data="demo3.data" :columns="demo3.columns">
+    <lxy-table :data="demo3.data"
+               :columns="demo3.columns">
       <template v-slot:header-name="scope">
         <div>自定义name列表头{{ scope }}</div>
       </template>
@@ -38,15 +42,20 @@
   </div>
   <div class="demo">
     <h2>按需开启表格列排序，使用默认排序</h2>
-    <lxy-table :data="demo4.data" :columns="demo4.columns"></lxy-table>
+    <lxy-table :data="demo4.data"
+               :columns="demo4.columns">
+    </lxy-table>
   </div>
   <div class="demo">
     <h2>按需开启表格列排序，使用用户自定义排序(调用app.vue中的onSort自定义排序函数)</h2>
-    <lxy-table :data="demo5.data" :on-sort="onSort" :columns="demo4.columns"></lxy-table>
+    <lxy-table :data="demo5.data"
+               :on-sort="onSort"
+               :columns="demo4.columns">
+    </lxy-table>
   </div>
   <div class="demo">
     <h2>data为空时候</h2>
-    <lxy-table :on-sort="onSort" :columns="demo4.columns"></lxy-table>
+    <lxy-table :columns="demo4.columns" />
   </div>
 </template>
 
@@ -124,13 +133,10 @@ const demo5 = reactive({
  * 分页触发事件
  */
 function loadData(page: number) {
-  console.log('跳转至', page)
   demo2.data = demo1.data.slice(Math.random() * 10)
 }
 
-function onSort(data: [], options: any) {
-  console.log('传入要排序的list', data)
-  console.log('用户点了那一列，正序还是倒序信息', options)
+function onSort(data: Record<string, any>, options: any) {
   return data.reverse()
 }
 </script>

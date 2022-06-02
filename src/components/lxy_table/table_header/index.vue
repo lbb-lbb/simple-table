@@ -1,20 +1,20 @@
-<!-- @format -->
-
 <template>
   <thead>
-    <tr>
-      <th v-for="(item, index) in columns" :key="item.value">
-        <div style="display: flex">
-          <slot :name="addHeaderSlotName(item.value)" :item="item">{{ item.label }}</slot>
-          <span :class="[item.sort ? (index === sortIndex ? sortType : SORT_ITEM.normal) : '']"
-                @click="changeSort(index, item)"
-          />
-        </div>
-      </th>
-      <th v-if="openOption">
-        <slot name="header-options" :item="columns">操作</slot>
-      </th>
-    </tr>
+  <tr>
+    <th v-for="(item, index) in columns" :key="item.value">
+      <div style="display: flex"
+           class="header-wrapper">
+        <slot :name="addHeaderSlotName(item.value)" :item="item">{{ item.label }}</slot>
+        <span class="header-filter"
+              :class="[item.sort ? (index === sortIndex ? sortType : SORT_ITEM.normal) : '']"
+              @click="changeSort(index, item)"
+        />
+      </div>
+    </th>
+    <th v-if="openOption">
+      <slot name="header-options" :item="columns">操作</slot>
+    </th>
+  </tr>
   </thead>
 </template>
 
@@ -35,14 +35,14 @@ interface TableHeader {
 const props = withDefaults(defineProps<TableHeader>(), {
   openOption: false
 })
-const emit = defineEmits<{ (e: 'changeSort', columns: ColumnsType[], orderBy: string): void }>()
+const emit = defineEmits<{ (e: 'changeSort', columns: ColumnsType, orderBy: string): void }>()
 
 const sortType = ref(SORT_ITEM.normal) // 排序方式
 
 const sortIndex = ref<number>(-1) // 按那一列排序
 
 
-function changeSort(index: number, item: any) {
+function changeSort(index: number, item: ColumnsType) {
   switch (sortType.value) {
     case SORT_ITEM.normal:
       sortIndex.value = index
