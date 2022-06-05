@@ -2,19 +2,18 @@
 
 ### 表格属性
 
-| 参数          | 说明        | 类型      | 可选值          | 默认值                           |
-|-------------|-----------|---------|--------------|-------------------------------|
-| data        | 表格的内容数据   | array   | -            | [ ]                           |
-| columns     | 表头数据      | array   | -            | [ ]                           |
-| openOption  | 是否打开操作列   | boolean | true         | ```false```                   |
-| pages       | 分页参数      | object  | -            | ```{ total: 0, size: 10 } ``` |
-| currentPage | 当前页（双向绑定） | number  | ```number``` | 1                             |
-| showHeader  | 是否显示表头    | boolean | ```false```  | ```true ```                   |
-| height      | 表格高度      | number  | ```number``` | ```500```                     |
-| width       | 表格宽度      | number  | ```number``` | ```500```                     |
-| empteText   | 内容为空文本提示  | string  | -            | 数据为空                          |
-| border      | 表格边框      | boolean | ```false```  | ```true```                    |
-
+| 参数          | 说明        | 类型                                                                                                             | 可选值          | 默认值                           |
+|-------------|-----------|----------------------------------------------------------------------------------------------------------------|--------------|-------------------------------|
+| data        | 表格的内容数据   | [DataType[]](https://github.com/lbb-lbb/simple-table/blob/main/src/components/lxy_table/type/index.ts#L10-L12) | -            | [ ]                           |
+| columns     | 表头数据      | [ColumnType[]](https://github.com/lbb-lbb/simple-table/blob/main/src/components/lxy_table/type/index.ts#L4-L9) | -            | [ ]                           |
+| openOption  | 是否打开操作列   | boolean                                                                                                        | true         | ```false```                   |
+| pages       | 分页参数      | object                                                                                                         | -            | ```{ total: 0, size: 10 } ``` |
+| currentPage | 当前页（双向绑定） | number                                                                                                         | ```number``` | 1                             |
+| showHeader  | 是否显示表头    | boolean                                                                                                        | ```false```  | ```true ```                   |
+| height      | 表格高度      | number                                                                                                         | ```number``` | ```500```                     |
+| width       | 表格宽度      | number                                                                                                         | ```number``` | ```500```                     |
+| empteText   | 内容为空文本提示  | string                                                                                                         | -            | 数据为空                          |
+| border      | 表格边框      | boolean                                                                                                        | ```false```  | ```true```                    |
 
 ### 表格事件
 
@@ -30,25 +29,16 @@
 
 ### 表格方法
 
-| 参数             | 说明           | 类型  | 参数                      | 
-|----------------|--------------|-----|-------------------------|
-| onSort         | 用户自定义的排序方法   | fn  | (data, {order,orderBy}) | 
-| doLayout       | 强制表格重新渲染     | -   | -                       | 
-| clearSelection | 清除当前所勾选全部    | -   | -                       | 
-| clearFilter    | 清除当前的所有过滤    | -   | -                       |   
-| clearSort      | 清除排序         | -   | -                       |
-| loadData       | 表格数据加载后触发的事件 | f   | data                    | 
-| beforeLoadData | 表格数据加载前触发的事件 | f   | data                    | 
+| 参数             | 说明           | 类型                                                                                                          | 参数                      | 
+|----------------|--------------|-------------------------------------------------------------------------------------------------------------|-------------------------|
+| onSort         | 用户自定义的排序方法   | [onSortFun[]](https://github.com/lbb-lbb/simple-table/blob/main/src/components/lxy_table/type/index.ts#L14) | (data, {order,orderBy}) | 
+| doLayout       | 强制表格重新渲染     | -                                                                                                           | -                       | 
+| clearSelection | 清除当前所勾选全部    | -                                                                                                           | -                       | 
+| clearFilter    | 清除当前的所有过滤    | -                                                                                                           | -                       |   
+| clearSort      | 清除排序         | -                                                                                                           | -                       |
+| loadData       | 表格数据加载后触发的事件 | fn                                                                                                          | data                    | 
+| beforeLoadData | 表格数据加载前触发的事件 | fn                                                                                                          | data                    | 
 
-### 表格方法
-
-| 参数             | 说明         | 类型  | 参数                      | 
-|----------------|------------|-----|-------------------------|
-| onSort         | 用户自定义的排序方法 | fn  | (data, {order,orderBy}) | 
-| doLayout       | 强制表格重新渲染   | -   | -                       | 
-| clearSelection | 清除当前所勾选全部  | -   | -                       | 
-| clearFilter    | 清除当前的所有过滤  | -   | -                       |   
-| clearSort      | 清除排序       | -   | -                       |
 
 ### 表格插槽slot
 
@@ -81,7 +71,7 @@ export interface ColumnsType {
 }
 
 //例子
-columns = [
+const columns: ColumnsType = [
   { value: 'name', label: 'Name', sort: true, width: '20%' },
   { value: 'age', label: 'Age', sort: true },
   { value: 'is_manager', label: 'Manager', sort: true  },
@@ -91,8 +81,8 @@ columns = [
 ```
 参数```data```说明：
 ```javascript
-//例子, id作为唯一key标识
-data = [
+//例子, id作为唯一key标识 
+const data: DataType = [
   { id: 1, name: 'Liz Lemon', age: 36, is_manager: true, start_date: '02-28-1999', date: new Date('1998-05-16') }]
 ```
 
@@ -110,7 +100,7 @@ export interface PagesType {
   size: number  // 当前页最多可显示的数量
 }
 // 例子
-pages = {
+const pages: PagesType = {
   total: 0,
   size: 10
 }
@@ -119,19 +109,19 @@ pages = {
 
 ```html
 <simple-table>
-      <template v-slot:header-age="scope">
+    <template v-slot:header-age="scope">
         <div>自定义表头</div>
         <div>{{scope}}</div>
-      </template>
-      <template v-slot:name="scope">
+    </template>
+    <template v-slot:name="scope">
         <div>自定义内容</div>
         <div>{{scope}}</div>
-      </template>
-      <template v-slot:options="scope">
+    </template>
+    <template v-slot:options="scope">
         <div>自定义操作列</div>
         <div>{{scope}}</div>
-      </template>
-    </simple-table>
+    </template>
+</simple-table>
 ```
 如上面的例子，要自定义表头列的```age```（年龄）列，在```columns```中对应的value值为```age```那么在```<simple-table> ```组件中，其对应的
 具名插槽为```header-age```, 即该列的```header-``` + ```age```。

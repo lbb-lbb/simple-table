@@ -1,6 +1,7 @@
+import {ColumnsType, DataType} from "../../src/components/lxy_table/type";
 
 
-export const COLUMNS = [
+export const COLUMNS: ColumnsType[] = [
   {value: 'name', label: 'Name', sort: true},
   {value: 'age', label: 'Age'},
   {value: 'is_manager', label: 'Manager'},
@@ -8,7 +9,7 @@ export const COLUMNS = [
   {value: 'date', label: '时间'},
 ]
 
-export const DATA = [
+export const DATA: DataType[] = [
   {id: 1, name: 'Liz Lemon', age: 36, is_manager: true, start_date: '02-28-1999', date: new Date('1998-05-16')},
   {id: 2, name: '阀分撒', age: 40, is_manager: true, start_date: '03-05-1997', date: new Date('1998-05-17')},
   {id: 3, name: 'Tracy Morgan', age: 39, is_manager: false, start_date: '07-12-2002', date: new Date('1998-05-6')},

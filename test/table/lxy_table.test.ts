@@ -38,7 +38,37 @@ test("使用name列插槽以及操作列插槽", () => {
   expect(wrapper.html()).toMatchSnapshot();
 });
 
-test("不传入表头", async () => {
-  const wrapper = myWrapper(lxyTable);
-  expect(wrapper.html()).toMatchSnapshot();
+test("传入空表头", async () => {
+  function html() {
+    myWrapper(lxyTable)
+  }
+
+  expect(html).toThrowError('传入的columns必须是个非空数组');
 })
+
+test('options插槽名冲突', () => {
+  function html() {
+    myWrapper(lxyTable, {
+      props: {
+        columns: [{value: 'options', label: 'Name'}],
+        openOption: true
+      }
+    })
+  }
+
+  expect(html).toThrowError('开启的操作列插槽名"options"与columns里的value存在重名');
+})
+
+test('empty插槽名冲突', () => {
+  function html() {
+    myWrapper(lxyTable, {
+      props: {
+        columns: [{value: 'empty', label: 'Name'}]
+      }
+    })
+  }
+
+  expect(html).toThrowError('为空的插槽名"empty"与columns里的value存在重名');
+})
+
+

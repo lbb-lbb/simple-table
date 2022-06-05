@@ -38,6 +38,8 @@ test('操作列的显隐', async () => {
   const optionList = wrapper.findAll('.body-option')
   expect(optionList).toHaveLength(DATA.length)
 
+  expect(wrapper.find('.body-option').exists()).toBe(true)
+
   await wrapper.setProps({
     openOption: false
   })

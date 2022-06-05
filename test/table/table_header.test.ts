@@ -60,6 +60,7 @@ test('点击排序，排序图标由原序转为顺序正序-倒叙-原序', asy
 test('开启操作列', async () => {
   const wrapper = myWrapper(tableHeader, {props: {columns: COLUMNS, openOption: OPEN_OPTION}})
   const thList = wrapper.findAll('th')
+  // 最后一个th为操作列，判断其text
   expect(thList[thList.length - 1].text()).toEqual('操作')
   expect(wrapper.html()).toMatchSnapshot();
 })

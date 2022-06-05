@@ -1,84 +1,80 @@
 <template>
-  <div>
-    <table class="table">
-      <table-header :open-option="openOption"
-                    :columns="columns"
-                    @changeSort="changeSort">
-        <template v-for="item in columns"
-                  :key="item.value"
-                  v-slot:[addHeaderSlotName(item.value)]="scope">
-          <slot :name="addHeaderSlotName(item.value)"
-                :item="scope.item">
-
-          </slot>
-        </template>
-        <template v-slot:header-options="scope">
-          <slot
-              name="header-options"
-              :item="scope.item"></slot>
-        </template>
-      </table-header>
-      <table-body :open-option="openOption"
-                  :data="data"
-                  :order-by="orderBy"
-                  :order="order"
-                  :on-sort="onSort"
-                  :columns="columns">
-        <template v-for="item in columns"
-                  :key="item.value"
-                  v-slot:[item.value]="scope">
-          <slot :name="item.value"
-                :item="scope.item">
-
-          </slot>
-        </template>
-        <template v-slot:options="scope">
-          <slot name="options"
-                :item="scope.item">
-          </slot>
-        </template>
-      </table-body>
-    </table>
-  </div>
+  <table class="table">
+    <table-header :open-option="openOption"
+                  :columns="columns"
+                  @changeSort="changeSort">
+      <template v-for="item in columns"
+                :key="item.value"
+                v-slot:[addHeaderSlotName(item.value)]="scope">
+        <slot :name="addHeaderSlotName(item.value)"
+              :item="scope.item">
+        </slot>
+      </template>
+      <template v-slot:header-options="scope">
+        <slot name="header-options"
+              :item="scope.item">
+        </slot>
+      </template>
+    </table-header>
+    <table-body :open-option="openOption"
+                :data="data"
+                :order-by="orderBy"
+                :order="order"
+                :on-sort="onSort"
+                :columns="columns">
+      <template v-for="item in columns"
+                :key="item.value"
+                v-slot:[item.value]="scope">
+        <slot :name="item.value"
+              :item="scope.item">
+        </slot>
+      </template>
+      <template v-slot:options="scope">
+        <slot name="options"
+              :item="scope.item">
+        </slot>
+      </template>
+    </table-body>
+  </table>
 </template>
 
 <script lang="ts" setup>
 /**
  * @file 表格组件
  */
-import {ref, onBeforeMount, withDefaults, computed} from 'vue'
-import {ColumnsType} from './type'
-import TableBody from './table_body/index.vue'
-import TableHeader from './table_header/index.vue'
-import {SORT_ITEM} from '../../const'
-import {addHeaderSlotName, err, warn} from '../../util'
+import {ref, onBeforeMount, withDefaults} from "vue"
+import {ColumnsType, DataType, onSortFun} from "./type"
+import TableBody from "./table_body/index.vue"
+import TableHeader from "./table_header/index.vue"
+import {SORT_ITEM} from "../../const"
+import {addHeaderSlotName, err, warn} from "../../util"
 
-interface TableType<T extends {}> {
+interface TableType<T> {
   columns: ColumnsType[],
   data?: T[],
   orderBy?: string,
   order?: string,
   openOption?: boolean,
-  onSort?: (data: T[], option: { orderBy: string, order: string }) => T[]
+  onSort?: onSortFun<T>
 }
 
 
 onBeforeMount(() => {
-  if (props.columns && props.columns.length) {
+  if (!props.columns) {
     warn('传入的columns必须是个非空数组')
-    return
+    throw new Error('传入的columns必须是个非空数组')
   }
-  if (props.columns && props.columns.findIndex((v => v.value === 'option')) && props.openOption) {
-    err('开启的操作列插槽名"option"与columns里的value存在重名')
-    return
+  if (props.columns.findIndex((v => v.value === 'options')) !== -1 && props.openOption) {
+    err('开启的操作列插槽名"options"与columns里的value存在重名')
+    throw new Error('开启的操作列插槽名"options"与columns里的value存在重名')
   }
-  if (props.columns && props.columns.findIndex((v => v.value === 'empty')) && props.openOption) {
+  if (props.columns.findIndex((v => v.value === 'empty')) !== -1) {
     err('为空的插槽名"empty"与columns里的value存在重名')
-    return
+    throw new Error('为空的插槽名"empty"与columns里的value存在重名')
   }
 })
 
-const props = withDefaults(defineProps<TableType<Record<string, any>>>(),{
+const props = withDefaults(defineProps<TableType<DataType>>(),{
   openOption: false
 })
 const orderBy = ref('')

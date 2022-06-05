@@ -22,21 +22,21 @@
 /**
  * @file 渲染表格body组件
  */
-import {defineProps, toRefs, withDefaults} from 'vue'
-import {ColumnsType} from '../type'
-import {useSort} from '../hooks/useSort'
-import {SORT_ITEM} from "../../../const";
+import {defineProps, toRefs, withDefaults} from "vue"
+import {ColumnsType, DataType, onSortFun} from "../type"
+import {useSort} from "../hooks/useSort"
+import {SORT_ITEM} from "../../../const"
 
-interface TableBodyType<T extends Record<string, any>> {
+interface TableBodyType<T> {
   columns: ColumnsType[],
   data?: T[],
   orderBy?: string,
   order?: string,
   openOption?: boolean,
-  onSort?: (data: T[], option: { orderBy: string, order: string }) => T[]
+  onSort?: onSortFun<T>
 }
 
-const props = withDefaults(defineProps<TableBodyType<Record<string, any>>>(), {
+const props = withDefaults(defineProps<TableBodyType<DataType>>(), {
   data: () => [],
   orderBy: '',
   order: SORT_ITEM.normal,

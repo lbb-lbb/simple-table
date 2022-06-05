@@ -1,6 +1,6 @@
 import { expect, test, vi } from "vitest";
 import { useSort } from "../../src/components/lxy_table/hooks/useSort";
-import { ref } from 'vue'
+import { ref } from "vue"
 import {SORT_ITEM} from "../../src/const";
 import {withSetup} from "../util";
 
@@ -18,7 +18,7 @@ const onSort = vi.fn((data:Record<string, any>, option: Record<string, string>) 
 test('使用默认的排序', async () => {
   const normalWrapper = useSort(data, orderByName, normal, undefined)
   // 不排序时返回的数组和传入的数组一致
-  expect(normalWrapper.sortData.value === data.value).toEqual(true)
+  expect(normalWrapper.sortData.value).toEqual(data.value)
 
   // 基于name列正序
   const ascWrapper = useSort(data, orderByName, asc, undefined)

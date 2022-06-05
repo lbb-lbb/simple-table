@@ -9,23 +9,23 @@ export function isInteger(n: string){
 
 export function info(message: unknown) {
     if (import.meta.env.MODE !== 'production') {
-        console.info(message + '----------------' + loggerMessage())
+        console.info(message + '\n----------------' + loggerMessage())
     }
 }
 
 export function err(message: unknown) {
     if (import.meta.env.MODE !== 'production') {
-        console.error(message + '----------------' + loggerMessage())
+        console.error(message + '\n----------------' + loggerMessage())
     }
 }
 
 export function warn(message: unknown) {
     if (import.meta.env.MODE !== 'production') {
-        console.warn(message + '----------------' + loggerMessage())
+        console.warn(message + '\n----------------' + loggerMessage())
     }
 }
 function loggerMessage() {
-    return `components name [lxy-table] ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+    return `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
 }
 
 

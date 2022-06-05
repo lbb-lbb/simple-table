@@ -8,8 +8,7 @@
   <div class="demo">
     <h2>表格配合开启分页组件使用（分页事件触发app.vue中的loadData函数,从新赋值表格data）</h2>
     <lxy-table :data="demo2.data"
-               :columns="demo2.columns"
-    >
+               :columns="demo2.columns">
     </lxy-table>
     <pagination v-model:current-page="demo2.currentPage"
                 :pages="demo2.pages"
@@ -55,48 +54,41 @@
   </div>
   <div class="demo">
     <h2>data为空时候</h2>
-    <lxy-table :columns="demo4.columns" />
+    <lxy-table :columns="noSortColumns" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import {reactive, watch} from 'vue'
-import lxyTable from './components/lxy_table/lxy_table.vue'
-import Pagination from './components/pagination/pagination.vue';
+import {reactive, watch} from "vue"
+import lxyTable from "./components/lxy_table/lxy_table.vue"
+import Pagination from "./components/pagination/pagination.vue";
+import {ColumnsType, DataType, sortOption} from "./components/lxy_table/type";
+import {tableData} from "../mock";
+import {info} from "./util";
 
-const data = [
-  {id: 1, name: 'Liz Lemon', age: 36, is_manager: true, start_date: '02-28-1999', date: new Date('1998-05-16')},
-  {id: 2, name: '阀分撒', age: 40, is_manager: true, start_date: '03-05-1997', date: new Date('1998-05-17')},
-  {id: 3, name: 'Tracy Morgan', age: 39, is_manager: false, start_date: '07-12-2002', date: new Date('1998-05-6')},
-  {id: 4, name: 'Jenna Maroney', age: 40, is_manager: false, start_date: '02-28-1999', date: new Date('1998-05-7')},
-  {
-    id: 5,
-    name: 'Kenneth Parcell',
-    age: Infinity,
-    is_manager: false,
-    tart_date: '01-01-1970',
-    date: new Date('1998-05-30'),
-  },
-  {id: 6, name: '啊啊', age: null, is_manager: true, start_date: '04-01-2000', date: new Date('1998-05-28')},
-  {id: 7, name: 'Frank Rossitano', age: 36, is_manager: false, start_date: null, date: new Date('1998-05-14')},
-  {id: 8, name: null, age: 12, is_manager: null, start_date: null, date: new Date('1998-05-11')},
-]
-
-const noSortColumns = [
+const noSortColumns: ColumnsType[] = [
   {value: 'name', label: 'Name'},
   {value: 'age', label: 'Age'},
-  {value: 'is_manager', label: 'Manager'},
-  {value: 'start_date', label: 'Start Date'},
+  {value: 'isManager', label: 'Manager'},
+  {value: 'description', label: 'Start Date'},
   {value: 'date', label: '时间'},
+]
+
+const columns: ColumnsType[] = [
+  {value: 'name', label: 'Name', sort: true},
+  {value: 'age', label: 'Age', sort: true},
+  {value: 'isManager', label: 'Manager', sort: true},
+  {value: 'description', label: 'Start Date', sort: true},
+  {value: 'date', label: '时间', sort: true},
 ]
 
 const demo1 = reactive({
   columns: noSortColumns,
-  data,
+  data: tableData[0],
 })
 const demo2 = reactive({
   columns: noSortColumns,
-  data,
+  data: tableData[1],
   pages: {
     total: 99,
     size: 10,
@@ -105,28 +97,16 @@ const demo2 = reactive({
 })
 const demo3 = reactive({
   columns: noSortColumns,
-  data,
+  data: tableData[2],
   openOption: true,
 })
 const demo4 = reactive({
-  columns: [
-    {value: 'name', label: 'Name', sort: true},
-    {value: 'age', label: 'Age', sort: true},
-    {value: 'is_manager', label: 'Manager', sort: true},
-    {value: 'start_date', label: 'Start Date', sort: true},
-    {value: 'date', label: '时间', sort: true},
-  ],
-  data,
+  columns: columns,
+  data: tableData[3],
 })
 const demo5 = reactive({
-  columns: [
-    {value: 'name', label: 'Name', sort: true},
-    {value: 'age', label: 'Age', sort: true},
-    {value: 'is_manager', label: 'Manager', sort: true},
-    {value: 'start_date', label: 'Start Date', sort: true},
-    {value: 'date', label: '时间', sort: true},
-  ],
-  data,
+  columns: columns,
+  data: tableData[4],
 })
 
 watch(() => demo2.currentPage, (newVal: number) => {
@@ -137,10 +117,11 @@ watch(() => demo2.currentPage, (newVal: number) => {
  * 分页触发事件
  */
 function loadData(page: number) {
-  demo2.data = demo1.data.slice(Math.random() * 10)
+  demo2.data = tableData[page - 1]
 }
 
-function onSort(data: Record<string, any>, options: any) {
+function onSort(data: DataType[], options: sortOption) {
+  info(`调用自定义排序-对${options.orderBy}倒叙`)
   return data.reverse()
 }
 </script>

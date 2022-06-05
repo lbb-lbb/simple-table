@@ -1,20 +1,23 @@
 <template>
   <thead>
-  <tr>
-    <th v-for="(item, index) in columns" :key="item.value">
-      <div style="display: flex"
-           class="header-wrapper">
-        <slot :name="addHeaderSlotName(item.value)" :item="item">{{ item.label }}</slot>
-        <span class="header-filter"
-              :class="[item.sort ? (index === sortIndex ? sortType : SORT_ITEM.normal) : '']"
-              @click="changeSort(index, item)"
-        />
-      </div>
-    </th>
-    <th v-if="openOption">
-      <slot name="header-options" :item="columns">操作</slot>
-    </th>
-  </tr>
+    <tr>
+      <th v-for="(item, index) in columns"
+          :key="item.value">
+        <div style="display: flex"
+             class="header-wrapper">
+          <slot :name="addHeaderSlotName(item.value)"
+                :item="item">{{ item.label }}</slot>
+          <span class="header-filter"
+                :class="[item.sort ? (index === sortIndex ? sortType : SORT_ITEM.normal) : '']"
+                @click="changeSort(index, item)"
+          />
+        </div>
+      </th>
+      <th v-if="openOption">
+        <slot name="header-options"
+              :item="columns">操作</slot>
+      </th>
+    </tr>
   </thead>
 </template>
 
@@ -22,10 +25,10 @@
 /**
  * @file 渲染表格header组件
  */
-import {defineProps, ref, withDefaults, defineEmits} from 'vue'
-import {ColumnsType} from '../type'
-import {SORT_ITEM} from '../../../const'
-import {addHeaderSlotName} from '../../../util'
+import {defineProps, ref, withDefaults, defineEmits} from "vue"
+import {ColumnsType} from "../type"
+import {SORT_ITEM} from "../../../const"
+import {addHeaderSlotName} from "../../../util"
 
 interface TableHeader {
   columns: ColumnsType[],
@@ -63,12 +66,12 @@ function changeSort(index: number, item: ColumnsType) {
 }
 </script>
 <style scoped>
-.sort-normal {
+.sort-normal, .sort-asc, .sort-desc {
   position: relative;
   margin-left: 2px;
 }
 
-.sort-normal:before {
+.sort-normal:before, .sort-desc:before {
   position: absolute;
   top: 2px;
   content: '';
@@ -80,7 +83,7 @@ function changeSort(index: number, item: ColumnsType) {
   cursor: pointer;
 }
 
-.sort-normal:after {
+.sort-normal:after, .sort-asc:after  {
   position: absolute;
   bottom: 2px;
   content: '';
@@ -92,10 +95,6 @@ function changeSort(index: number, item: ColumnsType) {
   cursor: pointer;
 }
 
-.sort-asc {
-  position: relative;
-  margin-left: 2px;
-}
 
 .sort-asc:before {
   position: absolute;
@@ -107,35 +106,6 @@ function changeSort(index: number, item: ColumnsType) {
   border-right: 5px solid transparent;
   border-bottom: 5px solid #333;
   border-bottom-color: #1770e6;
-  cursor: pointer;
-}
-
-.sort-asc:after {
-  position: absolute;
-  bottom: 2px;
-  content: '';
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #333;
-  cursor: pointer;
-}
-
-.sort-desc {
-  position: relative;
-  margin-left: 2px;
-}
-
-.sort-desc:before {
-  position: absolute;
-  top: 2px;
-  content: '';
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid #333;
   cursor: pointer;
 }
 

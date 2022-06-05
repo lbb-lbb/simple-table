@@ -1,47 +1,36 @@
-import {computed, unref, Ref, ComputedRef} from 'vue'
-import {SORT_ITEM} from '../../../const'
+import {computed, unref, Ref, ComputedRef} from "vue"
+import {SORT_ITEM} from "../../../const"
 import {err, info} from "../../../util";
+import {onSortFun} from "../type";
 
-export function useSort<T extends Record<string, any>>(data: Ref<T[]>, orderBy: Ref<string>, order: Ref<string>, onSort: ((data: T[], option: {orderBy: string; order: string}) => T[]) | undefined) {
+export function useSort<T extends Record<string, any>>(data: Ref<T[]>, orderBy: Ref<string>, order: Ref<string>, onSort: onSortFun<T> | undefined) {
 
     const sortData: ComputedRef<T[]> = computed(() => {
         const originalData = unref(data)
-        const useOrderBy = unref(orderBy)
-        const useOrder = unref(order)
-        const useOnSort = onSort
-        if (useOrderBy) {
-            if (typeof useOnSort === 'function') {
-                try {
-                    info(`调用自定义排序函数进行自定义根据${useOrderBy}列进行排序`)
-                    // 存在自定义回调函数，则调用返回
-                    return useOnSort(originalData, {orderBy: useOrderBy, order: useOrder})
-                } catch (e) {
-                    const message = `${useOnSort} is not a function, can’t sort on ${useOrderBy} \n ${e}`
-                    err(message)
-                }
-            }
-            const data: T[] = originalData.slice()
-            if (useOrder === SORT_ITEM.asc) {
-                // 正序
-                info(`调用根据${useOrderBy}列进行正序排序`)
-                return data.sort((a: T, b: T) => {
-                    const aName = String(a[useOrderBy])
-                    const bName = String(b[useOrderBy])
-                    return aName.localeCompare(bName, 'en', { numeric: true })
-                })
-            }
-            if (useOrder === SORT_ITEM.desc) {
-                // 倒序、
-                info(`调用根据${useOrderBy}列进行倒序排序`)
-                return data.sort((a: T, b: T) => {
-                    const aName = String(a[useOrderBy])
-                    const bName = String(b[useOrderBy])
-                    return bName.localeCompare(aName, 'en', { numeric: true })
-                })
+        const _orderBy = unref(orderBy)
+        const _order = unref(order)
+        const _onSort = onSort
+        if (_order === SORT_ITEM.normal) return originalData
+        // 调用自定义排序
+        if (typeof _onSort === 'function') {
+            try {
+                info(`调用自定义排序函数进行自定义根据${_orderBy}列进行排序`)
+                // 存在自定义回调函数，则调用返回
+                return _onSort(originalData.slice(), {orderBy: _orderBy, order: _order})
+            } catch (e) {
+                const message = `${_onSort} is not a function, can’t sort on ${_orderBy} \n ${e}`
+                err(message)
             }
         }
-        // 原本排序
-        return originalData
+        // 倒序or正序
+        const copyData: T[] = originalData.slice()
+        const isAsc = _order === SORT_ITEM.asc
+        info(`根据${_orderBy}列进行${ isAsc ? '升序' : '降序' }排序`)
+        return copyData.sort((a: T, b: T) => {
+            const aName = String(isAsc ? a[_orderBy] : b[_orderBy])
+            const bName = String(isAsc ? b[_orderBy] : a[_orderBy])
+            return aName.localeCompare(bName, 'en', { numeric: true })
+        })
     })
     return {
         sortData,
