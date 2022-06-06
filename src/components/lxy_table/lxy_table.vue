@@ -42,41 +42,18 @@
 /**
  * @file 表格组件
  */
-import {ref, onBeforeMount, withDefaults} from "vue"
-import {ColumnsType, DataType, onSortFun} from "./type"
+import {ref, onBeforeMount, withDefaults, toRefs} from "vue"
+import {ColumnsType, DataType, TableType} from "./type"
 import TableBody from "./table_body/index.vue"
 import TableHeader from "./table_header/index.vue"
 import {SORT_ITEM} from "../../const"
 import {addHeaderSlotName, err, warn} from "../../util"
+import {useProps} from "./hooks/useProps";
 
-interface TableType<T> {
-  columns: ColumnsType[],
-  data?: T[],
-  orderBy?: string,
-  order?: string,
-  openOption?: boolean,
-  onSort?: onSortFun<T>
-}
+const props = defineProps<TableType<DataType>>()
 
+const { columns, data, onSort, openOption } = useProps(props)
 
-onBeforeMount(() => {
-  if (!props.columns) {
-    warn('传入的columns必须是个非空数组')
-    throw new Error('传入的columns必须是个非空数组')
-  }
-  if (props.columns.findIndex((v => v.value === 'options')) !== -1 && props.openOption) {
-    err('开启的操作列插槽名"options"与columns里的value存在重名')
-    throw new Error('开启的操作列插槽名"options"与columns里的value存在重名')
-  }
-  if (props.columns.findIndex((v => v.value === 'empty')) !== -1) {
-    err('为空的插槽名"empty"与columns里的value存在重名')
-    throw new Error('为空的插槽名"empty"与columns里的value存在重名')
-  }
-})
-
-const props = withDefaults(defineProps<TableType<DataType>>(),{
-  openOption: false
-})
 const orderBy = ref('')
 const order = ref(SORT_ITEM.normal)
 
@@ -90,3 +67,4 @@ function changeSort(item: ColumnsType, type: (typeof SORT_ITEM)[keyof typeof SOR
   order.value = type
 }
 </script>
+

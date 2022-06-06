@@ -10,7 +10,7 @@
         </div>
       </td>
     </tr>
-    <tr v-if="!data.length">
+    <tr v-if="!data?.length">
       <div class="body-empty">
         <slot name="empty">数据为空</slot>
       </div>
@@ -23,28 +23,21 @@
  * @file 渲染表格body组件
  */
 import {defineProps, toRefs, withDefaults} from "vue"
-import {ColumnsType, DataType, onSortFun} from "../type"
+import {ColumnsType, DataType, onSortFun, TableType} from "../type"
 import {useSort} from "../hooks/useSort"
 import {SORT_ITEM} from "../../../const"
+import {useProps} from "../hooks/useProps";
 
-interface TableBodyType<T> {
-  columns: ColumnsType[],
-  data?: T[],
-  orderBy?: string,
-  order?: string,
-  openOption?: boolean,
-  onSort?: onSortFun<T>
-}
-
-const props = withDefaults(defineProps<TableBodyType<DataType>>(), {
+const props = withDefaults(defineProps<TableType<DataType>>(), {
   data: () => [],
   orderBy: '',
   order: SORT_ITEM.normal,
   openOption: false,
 })
 
-const { data, orderBy, order } = toRefs(props)
-const {sortData} = useSort<Record<string, any>>(data, orderBy, order, props.onSort)
+const { columns, data, orderBy, order, openOption } = useProps(props)
+const {sortData} = useSort<DataType>(data, orderBy, order, props.onSort)
 
 </script>
+
 

@@ -16,14 +16,9 @@
  */
 import {ref, toRefs} from "vue"
 import {usePagination} from "./hooks/usePageation"
-import {PagesType} from "./type"
+import {PaginationType} from "./type"
 
-interface TableFooterType {
-  currentPage: number,
-  pages: PagesType
-}
-
-const props = defineProps<TableFooterType>()
+const props = defineProps<PaginationType>()
 const emit = defineEmits<{
   (e: 'update:currentPage', changePage: number) : void // 更新双向绑定的值
 }>()

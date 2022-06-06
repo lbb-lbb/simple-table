@@ -1,9 +1,10 @@
+import { DataType } from "../type";
 import {computed, unref, Ref, ComputedRef} from "vue"
 import {SORT_ITEM} from "../../../const"
 import {err, info} from "../../../util";
 import {onSortFun} from "../type";
 
-export function useSort<T extends Record<string, any>>(data: Ref<T[]>, orderBy: Ref<string>, order: Ref<string>, onSort: onSortFun<T> | undefined) {
+export function useSort<T extends DataType>(data: Ref<T[]>, orderBy: Ref<string>, order: Ref<string>, onSort: onSortFun<T> | undefined) {
 
     const sortData: ComputedRef<T[]> = computed(() => {
         const originalData = unref(data)
